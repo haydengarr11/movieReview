@@ -107,6 +107,7 @@ const reducer = (state, action) => {
       ...state,
       movieTitle: action.payload.title,
       movieImage: action.payload.image,
+      movieBackdrop: action.payload.backdrop,
     }
   }
 

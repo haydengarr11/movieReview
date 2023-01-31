@@ -32,7 +32,7 @@ const MovieCard = ({movie, id}) => {
           <h4 className="card-subtitle mb-2 text-muted">
             {releaseDate.toLocaleDateString("en-US", dateOptions)}
           </h4>
-          <p className="card-text">{movie.overview}</p>
+          {/* <p className="card-text ">{movie.overview}</p> */}
         </div>
         <button
           className="btn btn-primary"

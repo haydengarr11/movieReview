@@ -10,9 +10,10 @@ const FormRow = ({type, name, value, handleChange, labelText}) => {
         name={name}
         onChange={handleChange}
         placeholder={name}
+        autoComplete="off"
         className="form-input"
       />
     </div>
-  );
-};
-export default FormRow;
+  )
+}
+export default FormRow

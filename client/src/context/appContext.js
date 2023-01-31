@@ -178,6 +178,7 @@ const AppProvider = ({children}) => {
       payload: {
         title: movie.title,
         image: `https://image.tmdb.org/t/p/original${movie.poster_path}`,
+        backdrop: `https://image.tmdb.org/t/p/original${movie.backdrop_path}`,
       },
     })
   }

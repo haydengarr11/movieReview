@@ -5,7 +5,7 @@ import styled from "styled-components"
 import {useAppContext} from "../../context/appContext"
 
 const AddMovie = () => {
-  const [movie, changeMovie] = useState("")
+  const [movie, changeMovie] = useState("Avengers")
   //const [didSearch, setSearch] = useState(false)
   const [moviesArray, setMovieArray] = useState([])
   const {isLoading, movieTitle, movieImage} = useAppContext()
@@ -22,7 +22,7 @@ const AddMovie = () => {
   const searchMovie = async (title) => {
     axios({
       method: "get",
-      url: `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_KEY}&language=en-US&`,
+      url: `https://api.themoviedb.org/3/search/movie?api_key=f47bf4b6ab1075f40460261150b861a1&language=en-US&`,
       params: {
         query: title,
       },
@@ -38,7 +38,7 @@ const AddMovie = () => {
   if (movieTitle === "") {
     return (
       <Wrapper>
-        <div>
+        <div className="bck-img">
           <form className="form" onSubmit={handleSubmit}>
             <FormRow
               type="text"
@@ -66,7 +66,7 @@ const AddMovie = () => {
     return (
       <Wrapper>
         {" "}
-        <MovieReview movie={movie} />{" "}
+        <MovieReview />{" "}
       </Wrapper>
     )
   }
@@ -100,6 +100,22 @@ const Wrapper = styled.section`
   .card-img-top {
     border-radius: 4px 4px 10px 10px;
   }
+  .btn-primary {
+    margin: 0 10px 10px 10px;
+  }
+
+  .card {
+    margin-bottom: 10px;
+  }
+  /* .card-body {
+    overflow: auto;
+  } */
+  .container-fluid {
+    background-image: url(https://c4.wallpaperflare.com/wallpaper/971/1011/721/blue-pastel-wallpaper-preview.jpg);
+    background-size: cover;
+    background-repeat: repeat;
+    width: 100%;
+  }
 
   .primary-back .bck-color {
     background-color: var(--primary-300);
@@ -109,7 +125,11 @@ const Wrapper = styled.section`
   }
 
   .cardContainer {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
+  }
+  .movie-form {
+    z-index: 500;
+    width: 50vw;
   }
 `
 

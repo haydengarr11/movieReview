@@ -13,7 +13,7 @@ const movieSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Please provide rating"],
       min: 0,
-      max: 10,
+      max: 5,
     },
     image: String,
     review: {
