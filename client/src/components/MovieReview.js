@@ -1,9 +1,24 @@
 import {useAppContext} from "../context/appContext"
 import {useState} from "react"
 import styled from "styled-components"
+import {Alert} from "./index"
 const MovieReview = () => {
-  const {movieTitle, movieImage, movieBackdrop, user} = useAppContext()
+  const {
+    movieTitle,
+    movieImage,
+    user,
+    removeSelected,
+    movieReview,
+    movieRating,
+    createMovie,
+    handleMovieChange,
+    showAlert,
+    displayAlert,
+  } = useAppContext()
+  const title = movieTitle
   const [rating, setRating] = useState(0)
+  const [review, setReview] = useState("")
+  const image = movieImage
   const [firstName, setFirstName] = useState(user?.name)
 
   const handleStarClick = (val) => {
@@ -11,17 +26,22 @@ const MovieReview = () => {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    if (!movieRating || !movieReview) {
+      displayAlert()
+      return
+    }
+    createMovie()
+  }
+  const handleChange = (name, value) => {
+    handleMovieChange({name: name, value: value})
   }
 
   return (
     <Wrapper>
-      <div className="container-fluid">
-        {/* <img
-          src={movieBackdrop ? movieBackdrop : null}
-          alt={movieTitle}
-          className="rounded bottom-img"
-        /> */}
+      <div className="container-fluid movie-review">
         <form className="form movie-form" onSubmit={handleSubmit}>
+          {showAlert && <Alert />}
           <h2>{movieTitle}</h2>
           <img
             src={movieImage}
@@ -40,40 +60,47 @@ const MovieReview = () => {
                 user.lastName ? `${firstName} ${user.lastName}` : firstName
               }
               className="form-input"
-              onChange={(e) => setFirstName(e.target.value)}
             />
             <label for="rating" className="form-label">
               Rating
             </label>
             {[1, 2, 3, 4, 5].map((value) => (
               <span
+                name="movieRating"
                 key={value}
                 className={`star ${value <= rating ? "filled" : ""}`}
-                onClick={() => handleStarClick(value)}
+                onClick={() => {
+                  handleStarClick(value)
+                  handleChange("movieRating", value)
+                }}
               >
                 &#9733;
               </span>
             ))}
-            {/* <input
-              type="range"
-              id="rating"
-              name="rating"
-              min="0"
-              max="10"
-              step=".25"
-              value={rating}
-              onChange={(e) => setRatingVal(e.target.value)}
-            />
-            <span>{rating}</span> */}
           </div>
           <label for="textarea" className="form-label">
             {" "}
             Review{" "}
           </label>
-          <textarea className="textarea mx-auto" rows="5" cols="45" />
-          <button className="btn btn-inline-block mt-2" type="submit">
-            Submit Review
-          </button>
+          <textarea
+            name="movieReview"
+            className="textarea mx-auto"
+            rows="5"
+            cols="45"
+            onChange={(e) => handleChange("movieReview", e.target.value)}
+          />
+          <div className="d-flex justify-content-between mt-2">
+            <button className="btn btn-inline-block" type="submit">
+              Submit Review
+            </button>
+            <button
+              className="btn btn-inline-block btn-danger reset"
+              type="reset"
+              onClick={removeSelected}
+            >
+              Reset
+            </button>
+          </div>
         </form>
       </div>
     </Wrapper>

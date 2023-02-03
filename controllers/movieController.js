@@ -3,16 +3,16 @@ import {StatusCodes} from "http-status-codes"
 import Movie from "../models/Movie.js"
 
 const createMovie = async (req, res) => {
-  const {title, rating, review, coverPhoto} = req.body
+  const {movieTitle, movieRating, movieReview, movieImage} = req.body
 
-  if (!title || !rating || !review) {
+  if (!movieRating || !movieReview) {
     throw new BadRequestError("Please provide all values")
   }
 
   req.body.createdBy = req.user.userId
 
-  const movieReview = await Movie.create(req.body)
-  res.status(StatusCodes.CREATED).json({movieReview})
+  const review = await Movie.create(req.body)
+  res.status(StatusCodes.CREATED).json({review})
 }
 
 const getAllMovies = async (req, res) => {

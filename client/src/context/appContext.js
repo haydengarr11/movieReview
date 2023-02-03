@@ -12,8 +12,14 @@ import {
   UPDATE_USER_ERROR,
   UPDATE_USER_SUCCESS,
   SELECTED_MOVIE,
+  REMOVE_MOVIE,
+  HANDLE_MOVIE_CHANGE,
+  CREATE_MOVIE_BEGIN,
+  CREATE_MOVIE_ERROR,
+  CREATE_MOVIE_SUCCESS,
 } from "./actions"
 import axios from "axios"
+import {Await} from "react-router-dom"
 
 const token = localStorage.getItem("token")
 const user = localStorage.getItem("user")
@@ -29,7 +35,12 @@ const initialState = {
   userLocation: userLocation || "",
   jobLocation: userLocation || "",
   showSidebar: false,
+  isEditing: "",
+  editMovieId: "",
   movieTitle: "",
+  movieReview: "",
+  movieImage: "",
+  movieRating: 0,
 }
 
 const AppContext = React.createContext()
@@ -182,9 +193,38 @@ const AppProvider = ({children}) => {
       },
     })
   }
+  const removeSelected = () => {
+    dispatch({type: REMOVE_MOVIE})
+  }
 
   const toggleSidebar = () => {
     dispatch({type: TOGGLE_SIDEBAR})
+  }
+
+  const handleMovieChange = ({name, value}) => {
+    dispatch({type: HANDLE_MOVIE_CHANGE, payload: {name, value}})
+  }
+
+  const createMovie = async () => {
+    dispatch({type: CREATE_MOVIE_BEGIN})
+    try {
+      const {movieTitle, movieReview, movieRating, movieImage, token} = state
+      await authFetch.post("movies", {
+        movieTitle,
+        movieRating,
+        movieReview,
+        movieImage,
+      })
+      dispatch({type: CREATE_MOVIE_SUCCESS})
+      dispatch({type: REMOVE_MOVIE})
+    } catch (error) {
+      if (error.response.status === 401) return
+      dispatch({
+        type: CREATE_MOVIE_ERROR,
+        payload: {msg: "context error"},
+      })
+    }
+    clearAlert()
   }
 
   return (
@@ -198,6 +238,9 @@ const AppProvider = ({children}) => {
         logoutUser,
         updateUser,
         selectedMovie,
+        removeSelected,
+        createMovie,
+        handleMovieChange,
       }}
     >
       {children}

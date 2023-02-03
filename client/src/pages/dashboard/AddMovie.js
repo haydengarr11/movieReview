@@ -6,6 +6,7 @@ import {useAppContext} from "../../context/appContext"
 
 const AddMovie = () => {
   const [movie, changeMovie] = useState("Avengers")
+  const [selected, setSelected] = useState("")
   //const [didSearch, setSearch] = useState(false)
   const [moviesArray, setMovieArray] = useState([])
   const {isLoading, movieTitle, movieImage} = useAppContext()
@@ -22,7 +23,7 @@ const AddMovie = () => {
   const searchMovie = async (title) => {
     axios({
       method: "get",
-      url: `https://api.themoviedb.org/3/search/movie?api_key=f47bf4b6ab1075f40460261150b861a1&language=en-US&`,
+      url: process.env.REACT_APP_MOVIE_KEY,
       params: {
         query: title,
       },
@@ -65,8 +66,7 @@ const AddMovie = () => {
   if (movieTitle !== "") {
     return (
       <Wrapper>
-        {" "}
-        <MovieReview />{" "}
+        <MovieReview />
       </Wrapper>
     )
   }

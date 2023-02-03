@@ -10,6 +10,11 @@ import {
   UPDATE_USER_ERROR,
   UPDATE_USER_SUCCESS,
   SELECTED_MOVIE,
+  REMOVE_MOVIE,
+  HANDLE_MOVIE_CHANGE,
+  CREATE_MOVIE_BEGIN,
+  CREATE_MOVIE_ERROR,
+  CREATE_MOVIE_SUCCESS,
 } from "./actions"
 import {initialState} from "./appContext"
 
@@ -108,6 +113,46 @@ const reducer = (state, action) => {
       movieTitle: action.payload.title,
       movieImage: action.payload.image,
       movieBackdrop: action.payload.backdrop,
+    }
+  }
+  if (action.type === HANDLE_MOVIE_CHANGE) {
+    return {
+      ...state,
+      [action.payload.name]: action.payload.value,
+    }
+  }
+  if (action.type === REMOVE_MOVIE) {
+    return {
+      ...state,
+      movieTitle: "",
+      movieImage: "",
+      movieReview: "",
+      movieRating: 0,
+      movieBackdrop: "",
+    }
+  }
+  if (action.type === CREATE_MOVIE_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    }
+  }
+  if (action.type === CREATE_MOVIE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "New Movie Review Created!",
+    }
+  }
+  if (action.type === CREATE_MOVIE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
     }
   }
 

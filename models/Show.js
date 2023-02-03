@@ -2,19 +2,19 @@ import mongoose from "mongoose"
 
 const movieSchema = new mongoose.Schema(
   {
-    movieTitle: {
+    showTitle: {
       type: String,
       required: [true, "Please provide name"],
       trim: true,
     },
-    movieRating: {
+    showRating: {
       type: Number,
       required: [true, "Please provide rating"],
       min: 0,
       max: 5,
     },
-    movieImage: String,
-    movieReview: {
+    showImage: String,
+    showReview: {
       type: String,
       required: [true, "Please provide review description"],
       minlength: 0,
