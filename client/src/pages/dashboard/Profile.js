@@ -1,15 +1,27 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import {FormRow, Alert} from "../../components"
 import {useAppContext} from "../../context/appContext"
 import styled from "styled-components"
 
 const Profile = () => {
-  const {user, showAlert, displayAlert, updateUser, isLoading} = useAppContext()
+  const {
+    user,
+    showAlert,
+    displayAlert,
+    updateUser,
+    isLoading,
+    ownMovies,
+    getOwnMovies,
+  } = useAppContext()
 
   const [name, setName] = useState(user?.name)
   const [email, setEmail] = useState(user?.email)
   const [lastName, setLastName] = useState(user?.lastName)
   const [location, setLocation] = useState(user?.location)
+
+  useEffect(() => {
+    getOwnMovies()
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -59,6 +71,7 @@ const Profile = () => {
           </button>
         </div>
       </form>
+      {ownMovies.length > 0 && <p>you have movies</p>}
     </Wrapper>
   )
 }

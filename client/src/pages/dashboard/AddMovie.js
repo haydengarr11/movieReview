@@ -13,7 +13,7 @@ const AddMovie = () => {
 
   useEffect(() => {
     setMovieArray([])
-  }, [movie, movieTitle])
+  }, [movieTitle])
 
   const handleSubmit = (e) => {
     e.preventDefault()

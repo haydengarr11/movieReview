@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const movieSchema = new mongoose.Schema(
+const showSchema = new mongoose.Schema(
   {
     showTitle: {
       type: String,
@@ -29,4 +29,4 @@ const movieSchema = new mongoose.Schema(
   {timestamps: true}
 )
 
-export default mongoose.model("Movie", movieSchema)
+export default mongoose.model("Show", showSchema)

@@ -15,6 +15,15 @@ import {
   CREATE_MOVIE_BEGIN,
   CREATE_MOVIE_ERROR,
   CREATE_MOVIE_SUCCESS,
+  SELECTED_SHOW,
+  REMOVE_SHOW,
+  CREATE_SHOW_BEGIN,
+  CREATE_SHOW_SUCCESS,
+  CREATE_SHOW_ERROR,
+  GET_MOVIESORSHOWS_BEGIN,
+  GET_ALLMOVIES_SUCCESS,
+  GET_ALLSHOWS_SUCCESS,
+  GET_OWN_MOVIES_SUCCESS,
 } from "./actions"
 import {initialState} from "./appContext"
 
@@ -112,7 +121,13 @@ const reducer = (state, action) => {
       ...state,
       movieTitle: action.payload.title,
       movieImage: action.payload.image,
-      movieBackdrop: action.payload.backdrop,
+    }
+  }
+  if (action.type === SELECTED_SHOW) {
+    return {
+      ...state,
+      showTitle: action.payload.title,
+      showImage: action.payload.image,
     }
   }
   if (action.type === HANDLE_MOVIE_CHANGE) {
@@ -128,7 +143,6 @@ const reducer = (state, action) => {
       movieImage: "",
       movieReview: "",
       movieRating: 0,
-      movieBackdrop: "",
     }
   }
   if (action.type === CREATE_MOVIE_BEGIN) {
@@ -153,6 +167,74 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: "danger",
       alertText: action.payload.msg,
+    }
+  }
+  if (action.type === REMOVE_SHOW) {
+    return {
+      ...state,
+      showTitle: "",
+      showImage: "",
+      showReview: "",
+      showRating: 0,
+    }
+  }
+  if (action.type === CREATE_SHOW_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    }
+  }
+  if (action.type === CREATE_SHOW_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "New Show Review Created!",
+    }
+  }
+  if (action.type === CREATE_SHOW_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    }
+  }
+  if (action.type === GET_MOVIESORSHOWS_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+      showAlert: false,
+    }
+  }
+  if (action.type === GET_OWN_MOVIES_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      ownMovies: action.payload.ownMovies,
+      totalMovies: action.payload.totalMovies,
+      numOfPages: action.payload.numOfPages,
+    }
+  }
+  if (action.type === GET_ALLSHOWS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      shows: action.payload.shows,
+      totalShows: action.payload.totalShows,
+      numOfPages: action.payload.numOfPages,
+    }
+  }
+
+  if (action.type === GET_ALLMOVIES_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      movies: action.payload.movies,
+      totalMovies: action.payload.totalMovies,
+      numOfPages: action.payload.numOfPages,
     }
   }
 

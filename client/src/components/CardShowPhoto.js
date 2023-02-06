@@ -8,7 +8,7 @@ const CardMoviePhoto = ({item}) => {
   return (
     <img
       src={`${image}${item.poster_path}`}
-      alt={item.title}
+      alt={item.name}
       className="card-img-top mx-auto d-flex"
     />
   )

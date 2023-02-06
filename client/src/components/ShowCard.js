@@ -1,14 +1,15 @@
 import styled from "styled-components"
 import {useAppContext} from "../context/appContext"
+import CardShowPhoto from "./CardMoviePhoto"
 
-const MovieCard = ({movie, id}) => {
+const ShowCard = ({show, id}) => {
   const image = "https://image.tmdb.org/t/p/original"
-  const releaseDate = new Date(movie.release_date)
+  const releaseDate = new Date(show.first_air_date)
   const dateOptions = {month: "long", year: "numeric"}
-  const {isLoading, selectedMovie} = useAppContext()
+  const {isLoading, selectedShow} = useAppContext()
 
   const handleClick = () => {
-    selectedMovie(movie)
+    selectedShow(show)
   }
 
   return (
@@ -22,14 +23,14 @@ const MovieCard = ({movie, id}) => {
     >
       <div className="card h-100">
         <img
-          src={`${image}${movie.poster_path}`}
-          alt={movie.title}
+          src={`${image}${show.poster_path}`}
+          alt={show.name}
           className="card-img-top mx-auto d-flex"
         />
         <div className="card-body">
-          <h3 className="card-title">{movie.title}</h3>
+          <h3 className="card-title">{show.name}</h3>
           <h4 className="card-subtitle mb-2 text-muted">
-            {releaseDate.toLocaleDateString("en-US", dateOptions)}
+            First Aired: {releaseDate.toLocaleDateString("en-US", dateOptions)}
           </h4>
           {/* <p className="card-text ">{movie.overview}</p> */}
         </div>
@@ -46,4 +47,4 @@ const MovieCard = ({movie, id}) => {
   )
 }
 
-export default MovieCard
+export default ShowCard

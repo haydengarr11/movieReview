@@ -1,4 +1,4 @@
-import React, {useState, useContext, useReducer} from "react"
+import React, {useState, useContext, useReducer, useEffect} from "react"
 import reducer from "./reducer"
 import {
   DISPLAY_ALERT,
@@ -17,9 +17,17 @@ import {
   CREATE_MOVIE_BEGIN,
   CREATE_MOVIE_ERROR,
   CREATE_MOVIE_SUCCESS,
+  SELECTED_SHOW,
+  REMOVE_SHOW,
+  CREATE_SHOW_BEGIN,
+  CREATE_SHOW_SUCCESS,
+  CREATE_SHOW_ERROR,
+  GET_MOVIESORSHOWS_BEGIN,
+  GET_ALLMOVIES_SUCCESS,
+  GET_ALLSHOWS_SUCCESS,
+  GET_OWN_MOVIES_SUCCESS,
 } from "./actions"
 import axios from "axios"
-import {Await} from "react-router-dom"
 
 const token = localStorage.getItem("token")
 const user = localStorage.getItem("user")
@@ -36,11 +44,23 @@ const initialState = {
   jobLocation: userLocation || "",
   showSidebar: false,
   isEditing: "",
-  editMovieId: "",
+  editId: "",
   movieTitle: "",
   movieReview: "",
   movieImage: "",
   movieRating: 0,
+  showTitle: "",
+  showReview: "",
+  showImage: "",
+  showRating: 0,
+  ownMovies: [],
+  movies: [],
+  totalMovies: 0,
+  ownShows: [],
+  shows: [],
+  totalShows: 0,
+  page: 1,
+  numOfPages: 1,
 }
 
 const AppContext = React.createContext()
@@ -193,8 +213,22 @@ const AppProvider = ({children}) => {
       },
     })
   }
+
+  const selectedShow = (show) => {
+    dispatch({
+      type: SELECTED_SHOW,
+      payload: {
+        title: show.name,
+        image: `https://image.tmdb.org/t/p/original${show.poster_path}`,
+      },
+    })
+  }
+
   const removeSelected = () => {
     dispatch({type: REMOVE_MOVIE})
+  }
+  const removeSelectedShow = () => {
+    dispatch({type: REMOVE_SHOW})
   }
 
   const toggleSidebar = () => {
@@ -227,6 +261,73 @@ const AppProvider = ({children}) => {
     clearAlert()
   }
 
+  const createShow = async () => {
+    dispatch({type: CREATE_SHOW_BEGIN})
+    try {
+      const {showTitle, showReview, showRating, showImage, token} = state
+      await authFetch.post("shows", {
+        showTitle,
+        showRating,
+        showReview,
+        showImage,
+      })
+      dispatch({type: CREATE_SHOW_SUCCESS})
+      dispatch({type: REMOVE_SHOW})
+    } catch (error) {
+      if (error.response.status === 401) return
+      dispatch({
+        type: CREATE_SHOW_ERROR,
+        payload: {msg: "context error"},
+      })
+    }
+    clearAlert()
+  }
+
+  const getOwnMovies = async () => {
+    const id = user._id
+    let url = `/movies/${id}`
+
+    dispatch({type: GET_MOVIESORSHOWS_BEGIN})
+    try {
+      const {data} = await authFetch(url)
+      const {ownMovies, totalMovies, numOfPages} = data
+      dispatch({
+        type: GET_OWN_MOVIES_SUCCESS,
+        payload: {
+          ownMovies,
+          totalMovies,
+          numOfPages,
+        },
+      })
+    } catch (error) {
+      console.log(error.response)
+      logoutUser()
+    }
+    clearAlert()
+  }
+
+  const getAllMovies = async () => {
+    let url = `/movies`
+
+    dispatch({type: GET_MOVIESORSHOWS_BEGIN})
+    try {
+      const {data} = await authFetch(url)
+      const {movies, totalMovies, numOfPages} = data
+      dispatch({
+        type: GET_ALLMOVIES_SUCCESS,
+        payload: {
+          movies,
+          totalMovies,
+          numOfPages,
+        },
+      })
+    } catch (error) {
+      console.log(error.response)
+      logoutUser()
+    }
+    clearAlert()
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -241,6 +342,11 @@ const AppProvider = ({children}) => {
         removeSelected,
         createMovie,
         handleMovieChange,
+        selectedShow,
+        removeSelectedShow,
+        createShow,
+        getOwnMovies,
+        getAllMovies,
       }}
     >
       {children}

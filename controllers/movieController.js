@@ -16,7 +16,11 @@ const createMovie = async (req, res) => {
 }
 
 const getAllMovies = async (req, res) => {
-  res.send("get all movies")
+  const movies = await Movie.find()
+
+  res
+    .status(StatusCodes.OK)
+    .json({movies, totalMovies: movies.length, numOfPages: 1})
 }
 const updateMovie = async (req, res) => {
   res.send("update movie")
@@ -26,8 +30,23 @@ const deleteMovie = (req, res) => {
   res.send("delete movie")
 }
 
-const showStats = (req, res) => {
-  res.send("show state movie")
+const getOwnMovies = async (req, res) => {
+  const ownMovies = await Movie.find({createdBy: req.user.userId})
+
+  res
+    .status(StatusCodes.OK)
+    .json({ownMovies, totalOwnMovies: ownMovies.length, numOfPages: 1})
 }
 
-export {createMovie, getAllMovies, updateMovie, deleteMovie, showStats}
+const showStats = (req, res) => {
+  res.send("show stats movie")
+}
+
+export {
+  createMovie,
+  getAllMovies,
+  updateMovie,
+  deleteMovie,
+  showStats,
+  getOwnMovies,
+}
