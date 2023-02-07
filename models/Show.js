@@ -25,6 +25,10 @@ const showSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Please provide user"],
     },
+    creatorName: {
+      type: String,
+      required: [true, "please provide name"],
+    },
   },
   {timestamps: true}
 )

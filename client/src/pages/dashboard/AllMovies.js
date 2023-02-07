@@ -13,7 +13,7 @@ const AllMovies = () => {
         return (
           <div>
             <p>{movie.movieTitle}</p>
-            <p>{movie.createdBy}</p>
+            <p>{movie.creatorName}</p>
           </div>
         )
       })}

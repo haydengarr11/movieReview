@@ -243,6 +243,7 @@ const AppProvider = ({children}) => {
     dispatch({type: CREATE_MOVIE_BEGIN})
     try {
       const {movieTitle, movieReview, movieRating, movieImage, token} = state
+
       await authFetch.post("movies", {
         movieTitle,
         movieRating,

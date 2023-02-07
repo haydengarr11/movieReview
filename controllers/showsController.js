@@ -1,6 +1,7 @@
 import {BadRequestError} from "../errors/index.js"
 import {StatusCodes} from "http-status-codes"
 import Show from "../models/Show.js"
+import User from "../models/User.js"
 
 const createShow = async (req, res) => {
   const {showTitle, showRating, showReview, showImage} = req.body
@@ -10,6 +11,8 @@ const createShow = async (req, res) => {
   }
 
   req.body.createdBy = req.user.userId
+  const user = await User.findById(req.body.createdBy)
+  req.body.creatorName = `${user.name} ${user.lastName}`
 
   const review = await Show.create(req.body)
   res.status(StatusCodes.CREATED).json({review})

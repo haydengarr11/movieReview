@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose, {mongo} from "mongoose"
 
 const movieSchema = new mongoose.Schema(
   {
@@ -24,6 +24,10 @@ const movieSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "User",
       required: [true, "Please provide user"],
+    },
+    creatorName: {
+      type: String,
+      required: [true, "provide name"],
     },
   },
   {timestamps: true}
