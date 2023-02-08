@@ -72,6 +72,7 @@ const Profile = () => {
         </div>
       </form>
       {ownMovies.length > 0 && <p>you have movies</p>}
+      {ownMovies.length === 0 && <p>No reviews created</p>}
     </Wrapper>
   )
 }

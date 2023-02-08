@@ -5,7 +5,7 @@ import styled from "styled-components"
 import {useAppContext} from "../../context/appContext"
 
 const AddMovie = () => {
-  const [movie, changeMovie] = useState("Avengers")
+  const [movie, changeMovie] = useState("")
   const [selected, setSelected] = useState("")
   //const [didSearch, setSearch] = useState(false)
   const [moviesArray, setMovieArray] = useState([])
@@ -18,6 +18,7 @@ const AddMovie = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     searchMovie(movie)
+    changeMovie("")
   }
 
   const searchMovie = async (title) => {
