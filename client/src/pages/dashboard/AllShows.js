@@ -1,4 +1,10 @@
+import ShowsContainer from "../../components/ShowsContainer"
+
 const AllShows = () => {
-  return <h1>AllShows</h1>;
-};
-export default AllShows;
+  return (
+    <>
+      <ShowsContainer />{" "}
+    </>
+  )
+}
+export default AllShows

@@ -54,6 +54,7 @@ const initialState = {
   showImage: "",
   showRating: 0,
   ownMovies: [],
+  totalOwnMovies: 0,
   movies: [],
   totalMovies: 0,
   ownShows: [],
@@ -291,12 +292,13 @@ const AppProvider = ({children}) => {
     dispatch({type: GET_MOVIESORSHOWS_BEGIN})
     try {
       const {data} = await authFetch(url)
-      const {ownMovies, totalMovies, numOfPages} = data
+      console.log(data)
+      const {ownMovies, totalOwnMovies, numOfPages} = data
       dispatch({
         type: GET_OWN_MOVIES_SUCCESS,
         payload: {
           ownMovies,
-          totalMovies,
+          totalOwnMovies,
           numOfPages,
         },
       })
@@ -328,6 +330,27 @@ const AppProvider = ({children}) => {
     }
     clearAlert()
   }
+  const getAllShows = async () => {
+    let url = `/shows`
+
+    dispatch({type: GET_MOVIESORSHOWS_BEGIN})
+    try {
+      const {data} = await authFetch(url)
+      const {shows, totalShows, numOfPages} = data
+      dispatch({
+        type: GET_ALLSHOWS_SUCCESS,
+        payload: {
+          shows,
+          totalShows,
+          numOfPages,
+        },
+      })
+    } catch (error) {
+      console.log(error.response)
+      logoutUser()
+    }
+    clearAlert()
+  }
 
   return (
     <AppContext.Provider
@@ -348,6 +371,7 @@ const AppProvider = ({children}) => {
         createShow,
         getOwnMovies,
         getAllMovies,
+        getAllShows,
       }}
     >
       {children}

@@ -24,13 +24,6 @@ if (process.env.NODE_ENV !== "production") {
 
 app.use(express.json())
 
-app.get("/", (req, res) => {
-  res.json({msg: "Welcome"})
-})
-app.get("/api/v1", (req, res) => {
-  res.json({msg: "welcome"})
-})
-
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/movies", authenticateUser, movieRouter)
 app.use("/api/v1/shows", authenticateUser, showRouter)

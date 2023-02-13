@@ -25,9 +25,7 @@ const getAllMovies = async (req, res) => {
     .status(StatusCodes.OK)
     .json({movies, totalMovies: movies.length, numOfPages: 1})
 }
-const updateMovie = async (req, res) => {
-  res.send("update movie")
-}
+const updateMovie = async (req, res) => {}
 
 const deleteMovie = (req, res) => {
   res.send("delete movie")

@@ -2,59 +2,38 @@ import {Link} from "react-router-dom"
 import {useAppContext} from "../context/appContext"
 import styled from "styled-components"
 import moment from "moment"
-import {FaCalendar} from "react-icons/fa"
 
-const Movie = ({
+const Show = ({
   _id,
-  movieTitle,
-  movieImage,
+  showTitle,
+  showImage,
   creatorName,
-  movieReview,
+  showReview,
   createdAt,
-  movieRating,
+  showRating,
 }) => {
   let date = moment(createdAt)
-  date = date.format("MMM Do")
+  date = date.format("MMM Do YY")
   return (
     <Wrapper>
       <header>
-        <img
-          src={movieImage}
-          alt={`${movieTitle} cover`}
-          className="main-icon"
-        />
-        <h3 className="title">{movieTitle}</h3>
+        <img src={showImage} alt={`${showTitle} cover`} className="main-icon" />
+        <h3>{showTitle}</h3>
       </header>
-      <div className="info">
-        <div className=".content-center">
-          <label className="rl" for="movieRating">
-            Rating
-          </label>
-          {[1, 2, 3, 4, 5].map((value) => (
-            <span
-              name="movieRating"
-              key={value}
-              value={movieRating}
-              className={`star ${value <= movieRating ? "filled" : ""}`}
-            >
-              &#9733;
-            </span>
-          ))}
-          <h6>
-            <b>Reviewed By:</b> {creatorName}
-          </h6>
-        </div>
-        <div className="review-p truncate">
-          <b>Review:</b>
-          <p>{movieReview}</p>
-        </div>
-        <div className="row-end">
-          <p>
-            <FaCalendar /> {date}
-          </p>
-        </div>
+      <div className=".info">
+        {[1, 2, 3, 4, 5].map((value) => (
+          <span
+            name="showRating"
+            key={value}
+            value={showRating}
+            className={`star ${value <= showRating ? "filled" : ""}`}
+          >
+            &#9733;
+          </span>
+        ))}
+        <h6>Review By: {creatorName}</h6>
+        <p>{showReview}</p>
       </div>
-      <footer></footer>
     </Wrapper>
   )
 }
@@ -63,21 +42,17 @@ const Wrapper = styled.article`
   background: var(--white);
   border-radius: var(--borderRadius);
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: 2fr auto;
   box-shadow: var(--shadow-2);
-  max-width: 595px;
-  max-height: 500px;
   header {
     padding: 1rem 1.5rem;
     border-bottom: 1px solid var(--grey-100);
-    border-radius: 0.25rem;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto 1fr;
     align-items: center;
     background-color: var(--grey-100);
-    h3 {
+    h5 {
       letter-spacing: 0;
-      margin-right: 3rem;
     }
   }
   .main-icon {
@@ -89,39 +64,14 @@ const Wrapper = styled.article`
     border-radius: var(--borderRadius);
     font-size: 1.5rem;
     font-weight: 700;
+    text-transform: uppercase;
     color: var(--white);
     margin-right: 2rem;
   }
   .info {
     display: grid;
-    grid-template-rows: 1fr 120px;
-    margin-left: 1rem;
-    label {
-      margin-right: 1rem;
-      font-weight: bold;
-    }
-  }
 
-  .content-center {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .row-end {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 1rem;
-    align-items: center;
-  }
-  .truncate {
-    width: inherit;
-    overflow: auto;
-    text-overflow: ellipsis;
-  }
-  /* .info {
-    display: grid;
-    grid: repeat(3, 1fr);
-    h5 {
+    h6 {
       margin-bottom: 0.25rem;
     }
     p {
@@ -150,15 +100,14 @@ const Wrapper = styled.article`
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 0.5rem;
-    margin: 0px 15px;
     @media (min-width: 576px) {
       grid-template-columns: 1fr 1fr;
     }
     @media (min-width: 992px) {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr;
     }
     @media (min-width: 1120px) {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
     }
   }
   .status {
@@ -168,7 +117,7 @@ const Wrapper = styled.article`
     text-align: center;
     width: 100px;
     height: 30px;
-  } */
+  }
   footer {
     margin-top: 1rem;
   }
@@ -202,4 +151,4 @@ const Wrapper = styled.article`
   }
 `
 
-export default Movie
+export default Show

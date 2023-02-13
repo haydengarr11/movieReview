@@ -214,7 +214,7 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       ownMovies: action.payload.ownMovies,
-      totalMovies: action.payload.totalMovies,
+      totalOwnMovies: action.payload.totalOwnMovies,
       numOfPages: action.payload.numOfPages,
     }
   }

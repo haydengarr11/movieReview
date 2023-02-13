@@ -15,10 +15,8 @@ const MovieReview = () => {
     showAlert,
     displayAlert,
   } = useAppContext()
-  const title = movieTitle
+
   const [rating, setRating] = useState(0)
-  const [review, setReview] = useState("")
-  const image = movieImage
   const [firstName, setFirstName] = useState(user?.name)
 
   const handleStarClick = (val) => {

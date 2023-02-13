@@ -2,6 +2,8 @@ import {useEffect, useState} from "react"
 import {FormRow, Alert} from "../../components"
 import {useAppContext} from "../../context/appContext"
 import styled from "styled-components"
+import Movie from "../../components/Movie"
+import OwnMoviesContainer from "../../components/OwnMoviesContainer"
 
 const Profile = () => {
   const {
@@ -71,8 +73,14 @@ const Profile = () => {
           </button>
         </div>
       </form>
-      {ownMovies.length > 0 && <p>you have movies</p>}
+      {/* {ownMovies.length > 0 && <p>you have movies</p>}
       {ownMovies.length === 0 && <p>No reviews created</p>}
+      <div>
+        {ownMovies?.map((movie) => {
+          return <Movie key={movie._id} {...movie} />
+        })}
+      </div> */}
+      <OwnMoviesContainer />
     </Wrapper>
   )
 }

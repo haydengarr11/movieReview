@@ -5,15 +5,15 @@ import Alert from "./Alert"
 import Movie from "./Movie"
 
 const MoviesContainer = () => {
-  const {getAllMovies, movies, isLoading, page, totalMovies, showAlert} =
+  const {getOwnMovies, isLoading, totalOwnMovies, page, ownMovies, showAlert} =
     useAppContext()
   useEffect(() => {
-    getAllMovies()
+    getOwnMovies()
   }, [])
   if (isLoading) {
     // return <Loading />
   }
-  if (movies.length === 0) {
+  if (ownMovies.length === 0) {
     return (
       <Wrapper>
         <h2> No movies to show...</h2>
@@ -24,10 +24,10 @@ const MoviesContainer = () => {
     <Wrapper>
       {showAlert && <Alert />}
       <h5>
-        {totalMovies} movie{movies.length > 1 && "s"} found
+        {totalOwnMovies} movie{ownMovies.length > 1 && "s"} found
       </h5>
       <div className="movies">
-        {movies.map((movie) => {
+        {ownMovies.map((movie) => {
           return <Movie key={movie._id} {...movie} />
         })}
       </div>
