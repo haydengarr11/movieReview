@@ -33,6 +33,7 @@ const MoviesContainer = () => {
       </div>
     </Wrapper>
   )
+  const hayde = 54
 }
 
 const Wrapper = styled.section`
