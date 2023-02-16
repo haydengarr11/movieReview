@@ -24,6 +24,7 @@ import {
   GET_ALLMOVIES_SUCCESS,
   GET_ALLSHOWS_SUCCESS,
   GET_OWN_MOVIES_SUCCESS,
+  SET_EDIT_MOVIE,
 } from "./actions"
 import {initialState} from "./appContext"
 
@@ -235,6 +236,22 @@ const reducer = (state, action) => {
       movies: action.payload.movies,
       totalMovies: action.payload.totalMovies,
       numOfPages: action.payload.numOfPages,
+    }
+  }
+  if (action.type === SET_EDIT_MOVIE) {
+    const movie = state.movies.find((movie) => movie._id === action.payload.id)
+    const {_id, movieTitle, movieImage, movieRating, creatorName, movieReview} =
+      movie
+
+    return {
+      ...state,
+      isEditing: true,
+      editMovieId: _id,
+      movieTitle,
+      movieImage,
+      movieRating,
+      creatorName,
+      movieReview,
     }
   }
 

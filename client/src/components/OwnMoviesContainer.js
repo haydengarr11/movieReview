@@ -10,6 +10,14 @@ const MoviesContainer = () => {
   useEffect(() => {
     getOwnMovies()
   }, [])
+  ownMovies.forEach((element) => {
+    element.createdAt = new Date(element.createdAt)
+  })
+
+  ownMovies.sort((a, b) => {
+    return b.createdAt - a.createdAt
+  })
+
   if (isLoading) {
     // return <Loading />
   }
@@ -20,6 +28,7 @@ const MoviesContainer = () => {
       </Wrapper>
     )
   }
+
   return (
     <Wrapper>
       {showAlert && <Alert />}
@@ -33,7 +42,6 @@ const MoviesContainer = () => {
       </div>
     </Wrapper>
   )
-  const hayde = 54
 }
 
 const Wrapper = styled.section`

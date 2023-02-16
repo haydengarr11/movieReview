@@ -26,6 +26,7 @@ import {
   GET_ALLMOVIES_SUCCESS,
   GET_ALLSHOWS_SUCCESS,
   GET_OWN_MOVIES_SUCCESS,
+  SET_EDIT_MOVIE,
 } from "./actions"
 import axios from "axios"
 
@@ -43,8 +44,8 @@ const initialState = {
   userLocation: userLocation || "",
   jobLocation: userLocation || "",
   showSidebar: false,
-  isEditing: "",
-  editId: "",
+  isEditing: false,
+  editMovieId: "",
   movieTitle: "",
   movieReview: "",
   movieImage: "",
@@ -292,7 +293,6 @@ const AppProvider = ({children}) => {
     dispatch({type: GET_MOVIESORSHOWS_BEGIN})
     try {
       const {data} = await authFetch(url)
-      console.log(data)
       const {ownMovies, totalOwnMovies, numOfPages} = data
       dispatch({
         type: GET_OWN_MOVIES_SUCCESS,
@@ -352,6 +352,14 @@ const AppProvider = ({children}) => {
     clearAlert()
   }
 
+  const setEditMovie = (id) => {
+    dispatch({type: SET_EDIT_MOVIE, payload: {id}})
+  }
+
+  const editMovie = () => {
+    console.log(`Edit job`)
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -372,6 +380,8 @@ const AppProvider = ({children}) => {
         getOwnMovies,
         getAllMovies,
         getAllShows,
+        setEditMovie,
+        editMovie,
       }}
     >
       {children}

@@ -10,6 +10,15 @@ const MoviesContainer = () => {
   useEffect(() => {
     getAllMovies()
   }, [])
+
+  movies.forEach((element) => {
+    element.createdAt = new Date(element.createdAt)
+  })
+
+  movies.sort((a, b) => {
+    return b.createdAt - a.createdAt
+  })
+
   if (isLoading) {
     // return <Loading />
   }
