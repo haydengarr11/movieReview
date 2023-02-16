@@ -33,6 +33,7 @@ const MovieReview = () => {
     }
     if (isEditing) {
       editMovie()
+      return
     }
     createMovie()
   }

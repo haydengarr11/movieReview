@@ -25,6 +25,9 @@ import {
   GET_ALLSHOWS_SUCCESS,
   GET_OWN_MOVIES_SUCCESS,
   SET_EDIT_MOVIE,
+  EDIT_MOVIE_BEGIN,
+  EDIT_MOVIE_SUCCESS,
+  EDIT_MOVIE_ERROR,
 } from "./actions"
 import {initialState} from "./appContext"
 
@@ -252,6 +255,30 @@ const reducer = (state, action) => {
       movieRating,
       creatorName,
       movieReview,
+    }
+  }
+  if (action.type === EDIT_MOVIE_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    }
+  }
+  if (action.type === EDIT_MOVIE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Movie Updated!",
+    }
+  }
+  if (action.type === EDIT_MOVIE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
     }
   }
 

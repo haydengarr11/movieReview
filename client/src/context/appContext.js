@@ -27,6 +27,9 @@ import {
   GET_ALLSHOWS_SUCCESS,
   GET_OWN_MOVIES_SUCCESS,
   SET_EDIT_MOVIE,
+  EDIT_MOVIE_BEGIN,
+  EDIT_MOVIE_SUCCESS,
+  EDIT_MOVIE_ERROR,
 } from "./actions"
 import axios from "axios"
 
@@ -356,8 +359,28 @@ const AppProvider = ({children}) => {
     dispatch({type: SET_EDIT_MOVIE, payload: {id}})
   }
 
-  const editMovie = () => {
-    console.log(`Edit job`)
+  const editMovie = async () => {
+    dispatch({type: EDIT_MOVIE_BEGIN})
+
+    try {
+      const {movieReview, movieRating, movieTitle, movieImage} = state
+
+      await authFetch.patch(`/movies/${state.editMovieId}`, {
+        movieRating,
+        movieReview,
+        movieTitle,
+        movieImage,
+      })
+      dispatch({type: EDIT_MOVIE_SUCCESS})
+      dispatch({type: REMOVE_MOVIE})
+    } catch (error) {
+      if (error.response.status === 401) return
+      dispatch({
+        type: EDIT_MOVIE_ERROR,
+        payload: {msg: error.response.data.msg},
+      })
+    }
+    clearAlert()
   }
 
   return (
