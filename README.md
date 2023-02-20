@@ -4,7 +4,7 @@
 
 - npx create-react-app and copy/paste the code in there for the correct loaders or there will be errors
 
-- this app is connected to a mongo db so, if you have mongodb and a select "connect to application", you will get a string and key to enter and save that in a .env file which then the app will create a DB for you in there
+- this app is connected to a mongo db so, if you have mongodb and a select "connect to application", you will get a connection string and have to enter your mongodb password. Save that in an .env file on the top level with the variable named CONNECTION= and after the "/" and before the "?", create your database name. For example, mine is /MovieDB?... which then the app made a collection named MovieDB
 
 - the other env variables include a JWT secret which can be made personally and the JWT_Lifetime which is the amount of time until the token expires and you'd have to login again
 
