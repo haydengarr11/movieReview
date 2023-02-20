@@ -1,5 +1,5 @@
-import MoviesContainer from "../../components/MoviesContainer"
 import styled from "styled-components"
+import {MoviesContainer} from "../../components"
 
 const AllMovies = () => {
   return (

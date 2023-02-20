@@ -1,8 +1,8 @@
 import {useEffect} from "react"
-import {useAppContext} from "../context/appContext"
+import {useAppContext} from "../../../context/appContext"
 import styled from "styled-components"
-import Alert from "./Alert"
-import Movie from "./Movie"
+import Movie from "../Movie"
+import Alert from "../../Alert"
 
 const MoviesContainer = () => {
   const {getOwnMovies, isLoading, totalOwnMovies, page, ownMovies, showAlert} =
@@ -31,7 +31,6 @@ const MoviesContainer = () => {
 
   return (
     <Wrapper>
-      {showAlert && <Alert />}
       <h5>
         {totalOwnMovies} movie{ownMovies.length > 1 && "s"} found
       </h5>

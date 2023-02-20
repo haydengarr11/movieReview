@@ -1,7 +1,8 @@
-import {useAppContext} from "../context/appContext"
+import {useAppContext} from "../../context/appContext"
 import {useState} from "react"
 import styled from "styled-components"
-import {Alert} from "./index"
+import {Alert} from "../index"
+import {Link} from "react-router-dom"
 const MovieReview = () => {
   const {
     movieTitle,

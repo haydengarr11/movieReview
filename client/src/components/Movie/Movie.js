@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom"
-import {useAppContext} from "../context/appContext"
+import {useAppContext} from "../../context/appContext"
 import styled from "styled-components"
 import moment from "moment"
 import {FaCalendar} from "react-icons/fa"
@@ -13,7 +13,7 @@ const Movie = ({
   createdAt,
   movieRating,
 }) => {
-  const {user, setEditMovie} = useAppContext()
+  const {user, setEditMovie, deleteMovie} = useAppContext()
   let date = moment(createdAt)
   date = date.format("MMM Do")
   return (
@@ -59,7 +59,11 @@ const Movie = ({
               >
                 Edit
               </Link>
-              <button type="button" className="btn delete-btn">
+              <button
+                type="button"
+                className="btn delete-btn"
+                onClick={() => deleteMovie(_id)}
+              >
                 Delete
               </button>
             </div>

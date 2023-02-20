@@ -1,6 +1,6 @@
 import styled from "styled-components"
-import {useAppContext} from "../context/appContext"
-import CardShowPhoto from "./CardMoviePhoto"
+import {useAppContext} from "../../context/appContext"
+import CardShowPhoto from "./CardShowPhoto"
 
 const ShowCard = ({show, id}) => {
   const image = "https://image.tmdb.org/t/p/original"

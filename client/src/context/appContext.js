@@ -30,6 +30,9 @@ import {
   EDIT_MOVIE_BEGIN,
   EDIT_MOVIE_SUCCESS,
   EDIT_MOVIE_ERROR,
+  DELETE_MOVIE_BEGIN,
+  SHOW_MOVIE_STATS_BEGIN,
+  SHOW_MOVIE_STATS_SUCCESS,
 } from "./actions"
 import axios from "axios"
 
@@ -66,6 +69,8 @@ const initialState = {
   totalShows: 0,
   page: 1,
   numOfPages: 1,
+  movieStats: {},
+  monthlyMovieReviews: [],
 }
 
 const AppContext = React.createContext()
@@ -383,6 +388,34 @@ const AppProvider = ({children}) => {
     clearAlert()
   }
 
+  const deleteMovie = async (movieId) => {
+    dispatch({type: DELETE_MOVIE_BEGIN})
+    try {
+      await authFetch.delete(`/movies/${movieId}`)
+      getAllMovies()
+      getOwnMovies()
+    } catch (error) {
+      logoutUser()
+    }
+  }
+
+  const showMovieStats = async () => {
+    dispatch({type: SHOW_MOVIE_STATS_BEGIN})
+    try {
+      const {data} = await authFetch("/movies/stats")
+      dispatch({
+        type: SHOW_MOVIE_STATS_SUCCESS,
+        payload: {
+          stats: data.defaultStats,
+          monthlyMovieReviews: data.monthlyMovieReviews,
+        },
+      })
+    } catch (error) {
+      console.log(error.response)
+    }
+    clearAlert()
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -405,6 +438,7 @@ const AppProvider = ({children}) => {
         getAllShows,
         setEditMovie,
         editMovie,
+        deleteMovie,
       }}
     >
       {children}
