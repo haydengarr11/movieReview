@@ -27,6 +27,7 @@ REACT_APP_SHOW_KEY=https://api.themoviedb.org/3/search/tv?api_key=<yourKey>langu
  - Search Bar for filtering 
  - Allowing users to see movie or show stats on stats page 
  - Allowing users to see movies or show reviews on their profile page
+ - clean up All Shows and Add Show to reflect layout of the Movies pages 
 
 ### Questions?
 
