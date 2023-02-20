@@ -1,5 +1,4 @@
 import express from "express"
-import {showStats} from "../controllers/movieController.js"
 const router = express.Router()
 
 import {
@@ -8,6 +7,7 @@ import {
   getAllShows,
   deleteShow,
   getOwnShows,
+  showStats,
 } from "../controllers/showsController.js"
 
 router.route("/").post(createShow).get(getAllShows)

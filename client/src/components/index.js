@@ -14,9 +14,11 @@ import Movie from "./Movie/Movie"
 import OwnMoviesContainer from "./Movie/OwnMovies/OwnMoviesContainer"
 import MoviesContainer from "./Movie/MoviesContainer"
 import ShowsContainer from "./Show/ShowsContainer"
+import Loading from "./Loading"
 
 export {
   Logo,
+  Loading,
   ShowsContainer,
   MoviesContainer,
   FormRow,

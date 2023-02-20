@@ -26,13 +26,21 @@ import {
   GET_ALLMOVIES_SUCCESS,
   GET_ALLSHOWS_SUCCESS,
   GET_OWN_MOVIES_SUCCESS,
+  GET_OWN_SHOWS_SUCCESS,
   SET_EDIT_MOVIE,
-  EDIT_MOVIE_BEGIN,
+  SET_EDIT_SHOW,
+  EDIT_MOVIEORSHOW_BEGIN,
   EDIT_MOVIE_SUCCESS,
   EDIT_MOVIE_ERROR,
-  DELETE_MOVIE_BEGIN,
+  EDIT_SHOW_SUCCESS,
+  EDIT_SHOW_ERROR,
+  DELETE_MOVIEORSHOW_BEGIN,
   SHOW_MOVIE_STATS_BEGIN,
   SHOW_MOVIE_STATS_SUCCESS,
+  SHOW_SHOW_STATS_BEGIN,
+  SHOW_SHOW_STATS_SUCCESS,
+  // CHANGE_DISPLAY_SHOWS,
+  // CHANGE_DISPLAY_MOVIES,
 } from "./actions"
 import axios from "axios"
 
@@ -52,6 +60,7 @@ const initialState = {
   showSidebar: false,
   isEditing: false,
   editMovieId: "",
+  editShowId: "",
   movieTitle: "",
   movieReview: "",
   movieImage: "",
@@ -65,12 +74,15 @@ const initialState = {
   movies: [],
   totalMovies: 0,
   ownShows: [],
+  totalOwnShows: 0,
   shows: [],
   totalShows: 0,
   page: 1,
   numOfPages: 1,
   movieStats: {},
-  monthlyMovieReviews: [],
+  showStats: {},
+  monthlyReviews: [],
+  ownDisplay: "Movies",
 }
 
 const AppContext = React.createContext()
@@ -108,6 +120,15 @@ const AppProvider = ({children}) => {
       return Promise.reject(error)
     }
   )
+
+  // const changeDisplay = () => {
+  //   const {ownDisplay} = state
+  //   if (ownDisplay === "Movies") {
+  //     dispatch({type: CHANGE_DISPLAY_SHOWS})
+  //   } else {
+  //     dispatch({type: CHANGE_DISPLAY_MOVIES})
+  //   }
+  // }
 
   const displayAlert = () => {
     dispatch({type: DISPLAY_ALERT})
@@ -316,6 +337,28 @@ const AppProvider = ({children}) => {
     }
     clearAlert()
   }
+  const getOwnShows = async () => {
+    const id = user._id
+    let url = `/shows/${id}`
+
+    dispatch({type: GET_MOVIESORSHOWS_BEGIN})
+    try {
+      const {data} = await authFetch(url)
+      const {ownShows, totalOwnShows, numOfPages} = data
+      dispatch({
+        type: GET_OWN_SHOWS_SUCCESS,
+        payload: {
+          ownShows,
+          totalOwnShows,
+          numOfPages,
+        },
+      })
+    } catch (error) {
+      console.log(error.response)
+      logoutUser()
+    }
+    clearAlert()
+  }
 
   const getAllMovies = async () => {
     let url = `/movies`
@@ -363,9 +406,11 @@ const AppProvider = ({children}) => {
   const setEditMovie = (id) => {
     dispatch({type: SET_EDIT_MOVIE, payload: {id}})
   }
-
+  const setEditShow = (id) => {
+    dispatch({type: SET_EDIT_SHOW, payload: {id}})
+  }
   const editMovie = async () => {
-    dispatch({type: EDIT_MOVIE_BEGIN})
+    dispatch({type: EDIT_MOVIEORSHOW_BEGIN})
 
     try {
       const {movieReview, movieRating, movieTitle, movieImage} = state
@@ -387,13 +432,46 @@ const AppProvider = ({children}) => {
     }
     clearAlert()
   }
+  const editShow = async () => {
+    dispatch({type: EDIT_MOVIEORSHOW_BEGIN})
+
+    try {
+      const {showReview, showRating, showTitle, showImage} = state
+
+      await authFetch.patch(`/shows/${state.editShowId}`, {
+        showRating,
+        showReview,
+        showTitle,
+        showImage,
+      })
+      dispatch({type: EDIT_SHOW_SUCCESS})
+      dispatch({type: REMOVE_SHOW})
+    } catch (error) {
+      if (error.response.status === 401) return
+      dispatch({
+        type: EDIT_SHOW_ERROR,
+        payload: {msg: error.response.data.msg},
+      })
+    }
+    clearAlert()
+  }
 
   const deleteMovie = async (movieId) => {
-    dispatch({type: DELETE_MOVIE_BEGIN})
+    dispatch({type: DELETE_MOVIEORSHOW_BEGIN})
     try {
       await authFetch.delete(`/movies/${movieId}`)
       getAllMovies()
       getOwnMovies()
+    } catch (error) {
+      logoutUser()
+    }
+  }
+  const deleteShow = async (showId) => {
+    dispatch({type: DELETE_MOVIEORSHOW_BEGIN})
+    try {
+      await authFetch.delete(`/shows/${showId}`)
+      getAllShows()
+      getOwnShows()
     } catch (error) {
       logoutUser()
     }
@@ -407,7 +485,23 @@ const AppProvider = ({children}) => {
         type: SHOW_MOVIE_STATS_SUCCESS,
         payload: {
           stats: data.defaultStats,
-          monthlyMovieReviews: data.monthlyMovieReviews,
+          monthlyReviews: data.monthlyReviews,
+        },
+      })
+    } catch (error) {
+      console.log(error.response)
+    }
+    clearAlert()
+  }
+  const showShowStats = async () => {
+    dispatch({type: SHOW_SHOW_STATS_BEGIN})
+    try {
+      const {data} = await authFetch("/shows/stats")
+      dispatch({
+        type: SHOW_SHOW_STATS_SUCCESS,
+        payload: {
+          stats: data.defaultStats,
+          monthlyReviews: data.monthlyReviews,
         },
       })
     } catch (error) {
@@ -437,8 +531,13 @@ const AppProvider = ({children}) => {
         getAllMovies,
         getAllShows,
         setEditMovie,
+        editShow,
+        setEditShow,
         editMovie,
         deleteMovie,
+        showMovieStats,
+        deleteShow,
+        showShowStats,
       }}
     >
       {children}

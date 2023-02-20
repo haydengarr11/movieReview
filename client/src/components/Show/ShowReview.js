@@ -14,6 +14,8 @@ const ShowReview = () => {
     handleMovieChange,
     showAlert,
     displayAlert,
+    isEditing,
+    editShow,
   } = useAppContext()
   const title = showTitle
   const [rating, setRating] = useState(0)
@@ -29,6 +31,10 @@ const ShowReview = () => {
 
     if (!showRating || !showReview) {
       displayAlert()
+      return
+    }
+    if (isEditing) {
+      editShow()
       return
     }
     createShow()
@@ -68,7 +74,7 @@ const ShowReview = () => {
               <span
                 name="showRating"
                 key={value}
-                className={`star ${value <= rating ? "filled" : ""}`}
+                className={`star ${value <= showRating ? "filled" : ""}`}
                 onClick={() => {
                   handleStarClick(value)
                   handleChange("showRating", value)
@@ -84,6 +90,7 @@ const ShowReview = () => {
           </label>
           <textarea
             name="showReview"
+            value={showReview}
             className="textarea mx-auto"
             rows="5"
             cols="45"
@@ -91,7 +98,7 @@ const ShowReview = () => {
           />
           <div className="d-flex justify-content-between mt-2">
             <button className="btn btn-inline-block" type="submit">
-              Submit Review
+              {isEditing ? "Edit" : "Submit"} Review
             </button>
             <button
               className="btn btn-inline-block btn-danger reset"

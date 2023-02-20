@@ -24,13 +24,21 @@ import {
   GET_ALLMOVIES_SUCCESS,
   GET_ALLSHOWS_SUCCESS,
   GET_OWN_MOVIES_SUCCESS,
+  GET_OWN_SHOWS_SUCCESS,
   SET_EDIT_MOVIE,
-  EDIT_MOVIE_BEGIN,
+  EDIT_MOVIEORSHOW_BEGIN,
   EDIT_MOVIE_SUCCESS,
   EDIT_MOVIE_ERROR,
-  DELETE_MOVIE_BEGIN,
+  EDIT_SHOW_SUCCESS,
+  EDIT_SHOW_ERROR,
+  DELETE_MOVIEORSHOW_BEGIN,
   SHOW_MOVIE_STATS_BEGIN,
   SHOW_MOVIE_STATS_SUCCESS,
+  SHOW_SHOW_STATS_BEGIN,
+  SHOW_SHOW_STATS_SUCCESS,
+  CHANGE_DISPLAY_SHOWS,
+  CHANGE_DISPLAY_MOVIES,
+  SET_EDIT_SHOW,
 } from "./actions"
 import {initialState} from "./appContext"
 
@@ -85,6 +93,19 @@ const reducer = (state, action) => {
       showSidebar: !state.showSidebar,
     }
   }
+  // if (action.type === CHANGE_DISPLAY_SHOWS) {
+  //   return {
+  //     ...state,
+  //     ownDisplay: "Shows",
+  //   }
+  // }
+  // if (action.type === CHANGE_DISPLAY_MOVIES) {
+  //   return {
+  //     ...state,
+  //     ownDisplay: "Movies",
+  //   }
+  // }
+
   if (action.type === LOGOUT_USER) {
     return {
       ...initialState,
@@ -225,6 +246,15 @@ const reducer = (state, action) => {
       numOfPages: action.payload.numOfPages,
     }
   }
+  if (action.type === GET_OWN_SHOWS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      ownShows: action.payload.ownShows,
+      totalOwnShows: action.payload.totalOwnShows,
+      numOfPages: action.payload.numOfPages,
+    }
+  }
   if (action.type === GET_ALLSHOWS_SUCCESS) {
     return {
       ...state,
@@ -260,7 +290,23 @@ const reducer = (state, action) => {
       movieReview,
     }
   }
-  if (action.type === EDIT_MOVIE_BEGIN) {
+  if (action.type === SET_EDIT_SHOW) {
+    const show = state.shows.find((show) => show._id === action.payload.id)
+    const {_id, showTitle, showImage, showRating, creatorName, showReview} =
+      show
+
+    return {
+      ...state,
+      isEditing: true,
+      editShowId: _id,
+      showTitle,
+      showImage,
+      showRating,
+      creatorName,
+      showReview,
+    }
+  }
+  if (action.type === EDIT_MOVIEORSHOW_BEGIN) {
     return {
       ...state,
       isLoading: true,
@@ -284,7 +330,25 @@ const reducer = (state, action) => {
       alertText: action.payload.msg,
     }
   }
-  if (action.type === DELETE_MOVIE_BEGIN) {
+  if (action.type === EDIT_SHOW_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Movie Updated!",
+    }
+  }
+  if (action.type === EDIT_SHOW_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    }
+  }
+  if (action.type === DELETE_MOVIEORSHOW_BEGIN) {
     return {
       ...state,
       isLoading: true,
@@ -302,7 +366,22 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       movieStats: action.payload.stats,
-      monthlyMovieReviews: action.payload.monthlyMovieReviews,
+      monthlyMovieReviews: action.payload.monthlyReviews,
+    }
+  }
+  if (action.type === SHOW_SHOW_STATS_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+      showAlert: false,
+    }
+  }
+  if (action.type === SHOW_SHOW_STATS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showStats: action.payload.stats,
+      monthlyReviews: action.payload.monthlyReviews,
     }
   }
 

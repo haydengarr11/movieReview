@@ -50,11 +50,25 @@ const Wrapper = styled.section`
     grid-template-columns: 1fr;
     row-gap: 2rem;
   }
-  @media (min-width: 992px) {
+  @media (min-width: 900px) {
     .shows {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
+    }
+  }
+  @media (min-width: 1330px) {
+    .shows {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 1700px) {
+      .shows {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 0.5rem;
+      }
     }
   }
 `

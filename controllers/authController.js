@@ -2,6 +2,7 @@ import User from "../models/User.js"
 import {StatusCodes} from "http-status-codes"
 import {BadRequestError, UnauthenticatedError} from "../errors/index.js"
 import Movie from "../models/Movie.js"
+import Show from "../models/Show.js"
 
 const register = async (req, res, next) => {
   const {name, email, password} = req.body
@@ -72,6 +73,11 @@ const updateUser = async (req, res) => {
   updateMovieName.forEach((movie) => {
     movie.creatorName = `${name} ${lastName}`
     movie.save()
+  })
+  const updateShowName = await Show.find({createdBy: req.user.userId})
+  updateShowName.forEach((show) => {
+    show.creatorName = `${name} ${lastName}`
+    show.save()
   })
 
   const token = user.createJWT()

@@ -57,7 +57,7 @@ const deleteMovie = async (req, res) => {
   const movie = await Movie.findOne({_id: movieId})
 
   if (!movie) {
-    throw new CustomAPIError.NotFoundError(`No job with id : ${movieId}`)
+    throw new CustomAPIError.NotFoundError(`No Movie with id : ${movieId}`)
   }
 
   checkPermissions(req.user, movie.createdBy)
@@ -93,8 +93,8 @@ const showStats = async (req, res) => {
     four: stats[4] || 0,
     five: stats[5] || 0,
   }
-  const monthlyMovieReviews = []
-  res.status(StatusCodes.OK).json({defaultStats, monthlyMovieReviews})
+  const monthlyReviews = []
+  res.status(StatusCodes.OK).json({defaultStats, monthlyReviews})
 }
 
 export {

@@ -34,9 +34,7 @@ const Wrapper = styled.section`
     background-image: url(https://c4.wallpaperflare.com/wallpaper/971/1011/721/blue-pastel-wallpaper-preview.jpg);
     background-size: cover;
     background-repeat: repeat;
-    height: 100vh;
     width: 100%;
-    z-index: 1;
   }
   @media (min-width: 992px) {
     .dashboard {
