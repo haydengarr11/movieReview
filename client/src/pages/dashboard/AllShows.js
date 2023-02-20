@@ -1,4 +1,4 @@
-import ShowsContainer from "../../components/ShowsContainer"
+import {ShowsContainer} from "../../components"
 
 const AllShows = () => {
   return (

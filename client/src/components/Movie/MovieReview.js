@@ -1,7 +1,8 @@
-import {useAppContext} from "../context/appContext"
+import {useAppContext} from "../../context/appContext"
 import {useState} from "react"
 import styled from "styled-components"
-import {Alert} from "./index"
+import {Alert} from "../index"
+import {Link} from "react-router-dom"
 const MovieReview = () => {
   const {
     movieTitle,
@@ -14,6 +15,8 @@ const MovieReview = () => {
     handleMovieChange,
     showAlert,
     displayAlert,
+    isEditing,
+    editMovie,
   } = useAppContext()
 
   const [rating, setRating] = useState(0)
@@ -27,6 +30,10 @@ const MovieReview = () => {
 
     if (!movieRating || !movieReview) {
       displayAlert()
+      return
+    }
+    if (isEditing) {
+      editMovie()
       return
     }
     createMovie()
@@ -66,7 +73,7 @@ const MovieReview = () => {
               <span
                 name="movieRating"
                 key={value}
-                className={`star ${value <= rating ? "filled" : ""}`}
+                className={`star ${value <= movieRating ? "filled" : ""}`}
                 onClick={() => {
                   handleStarClick(value)
                   handleChange("movieRating", value)
@@ -82,6 +89,7 @@ const MovieReview = () => {
           </label>
           <textarea
             name="movieReview"
+            value={movieReview}
             className="textarea mx-auto"
             rows="5"
             cols="45"
@@ -89,14 +97,15 @@ const MovieReview = () => {
           />
           <div className="d-flex justify-content-between mt-2">
             <button className="btn btn-inline-block" type="submit">
-              Submit Review
+              {isEditing ? "Change" : "Submit"} Review
             </button>
+
             <button
               className="btn btn-inline-block btn-danger reset"
               type="reset"
               onClick={removeSelected}
             >
-              Reset
+              Cancel
             </button>
           </div>
         </form>

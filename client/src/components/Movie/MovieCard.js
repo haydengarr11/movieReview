@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import {useAppContext} from "../context/appContext"
+import {useAppContext} from "../../context/appContext"
 
 const MovieCard = ({movie, id}) => {
   const image = "https://image.tmdb.org/t/p/original"

@@ -1,9 +1,7 @@
 import {useEffect, useState} from "react"
-import {FormRow, Alert} from "../../components"
+import {FormRow, Alert, OwnMoviesContainer} from "../../components"
 import {useAppContext} from "../../context/appContext"
 import styled from "styled-components"
-import Movie from "../../components/Movie"
-import OwnMoviesContainer from "../../components/OwnMoviesContainer"
 
 const Profile = () => {
   const {

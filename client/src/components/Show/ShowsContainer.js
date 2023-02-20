@@ -1,7 +1,7 @@
 import {useEffect} from "react"
-import {useAppContext} from "../context/appContext"
+import {useAppContext} from "../../context/appContext"
 import styled from "styled-components"
-import Alert from "./Alert"
+import Alert from "../Alert"
 import Show from "./Show"
 
 const ShowsContainer = () => {
