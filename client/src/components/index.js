@@ -4,13 +4,21 @@ import Alert from "./Alert"
 import SmallSidebar from "./SmallSidebar"
 import BigSidebar from "./BigSidebar"
 import Navbar from "./Navbar"
-import MovieCard from "./MovieCard"
-import MovieReview from "./MovieReview"
-import ShowCard from "./ShowCard"
-import ShowReview from "./ShowReview"
+import MovieCard from "./Movie/MovieCard"
+import MovieReview from "./Movie/MovieReview"
+import ShowCard from "./Show/ShowCard"
+import ShowReview from "./Show/ShowReview"
+import StatsContainer from "./Stats/StatsContainer"
+import ChartsContainer from "./Stats/ChartsContainer"
+import Movie from "./Movie/Movie"
+import OwnMoviesContainer from "./Movie/OwnMovies/OwnMoviesContainer"
+import MoviesContainer from "./Movie/MoviesContainer"
+import ShowsContainer from "./Show/ShowsContainer"
 
 export {
   Logo,
+  ShowsContainer,
+  MoviesContainer,
   FormRow,
   Alert,
   SmallSidebar,
@@ -20,4 +28,8 @@ export {
   MovieReview,
   ShowCard,
   ShowReview,
+  StatsContainer,
+  ChartsContainer,
+  Movie,
+  OwnMoviesContainer,
 }

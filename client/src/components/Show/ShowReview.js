@@ -1,7 +1,7 @@
-import {useAppContext} from "../context/appContext"
+import {useAppContext} from "../../context/appContext"
 import {useState} from "react"
 import styled from "styled-components"
-import {Alert} from "./index"
+import {Alert} from "../index"
 const ShowReview = () => {
   const {
     showTitle,

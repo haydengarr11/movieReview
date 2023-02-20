@@ -24,6 +24,13 @@ import {
   GET_ALLMOVIES_SUCCESS,
   GET_ALLSHOWS_SUCCESS,
   GET_OWN_MOVIES_SUCCESS,
+  SET_EDIT_MOVIE,
+  EDIT_MOVIE_BEGIN,
+  EDIT_MOVIE_SUCCESS,
+  EDIT_MOVIE_ERROR,
+  DELETE_MOVIE_BEGIN,
+  SHOW_MOVIE_STATS_BEGIN,
+  SHOW_MOVIE_STATS_SUCCESS,
 } from "./actions"
 import {initialState} from "./appContext"
 
@@ -235,6 +242,67 @@ const reducer = (state, action) => {
       movies: action.payload.movies,
       totalMovies: action.payload.totalMovies,
       numOfPages: action.payload.numOfPages,
+    }
+  }
+  if (action.type === SET_EDIT_MOVIE) {
+    const movie = state.movies.find((movie) => movie._id === action.payload.id)
+    const {_id, movieTitle, movieImage, movieRating, creatorName, movieReview} =
+      movie
+
+    return {
+      ...state,
+      isEditing: true,
+      editMovieId: _id,
+      movieTitle,
+      movieImage,
+      movieRating,
+      creatorName,
+      movieReview,
+    }
+  }
+  if (action.type === EDIT_MOVIE_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    }
+  }
+  if (action.type === EDIT_MOVIE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Movie Updated!",
+    }
+  }
+  if (action.type === EDIT_MOVIE_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: action.payload.msg,
+    }
+  }
+  if (action.type === DELETE_MOVIE_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    }
+  }
+  if (action.type === SHOW_MOVIE_STATS_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+      showAlert: false,
+    }
+  }
+  if (action.type === SHOW_MOVIE_STATS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      movieStats: action.payload.stats,
+      monthlyMovieReviews: action.payload.monthlyMovieReviews,
     }
   }
 

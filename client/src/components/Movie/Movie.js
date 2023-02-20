@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom"
-import {useAppContext} from "../context/appContext"
+import {useAppContext} from "../../context/appContext"
 import styled from "styled-components"
 import moment from "moment"
 import {FaCalendar} from "react-icons/fa"
@@ -13,6 +13,7 @@ const Movie = ({
   createdAt,
   movieRating,
 }) => {
+  const {user, setEditMovie, deleteMovie} = useAppContext()
   let date = moment(createdAt)
   date = date.format("MMM Do")
   return (
@@ -48,13 +49,30 @@ const Movie = ({
           <b>Review:</b>
           <p>{movieReview}</p>
         </div>
-        <div className="row-end">
+        <footer>
+          {creatorName === `${user.name} ${user.lastName}` && (
+            <div className="footer-start">
+              <Link
+                to="/add-movie"
+                className="btn edit-btn"
+                onClick={() => setEditMovie(_id)}
+              >
+                Edit
+              </Link>
+              <button
+                type="button"
+                className="btn delete-btn"
+                onClick={() => deleteMovie(_id)}
+              >
+                Delete
+              </button>
+            </div>
+          )}
           <p>
             <FaCalendar /> {date}
           </p>
-        </div>
+        </footer>
       </div>
-      <footer></footer>
     </Wrapper>
   )
 }
@@ -107,11 +125,23 @@ const Wrapper = styled.article`
     grid-template-columns: 1fr 1fr;
   }
 
-  .row-end {
+  footer {
     display: flex;
-    justify-content: flex-end;
-    margin-right: 1rem;
-    align-items: center;
+    justify-content: space-between;
+    p {
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 1rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    .footer-start {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-end;
+      margin-bottom: 1rem;
+      margin-right: 2rem;
+    }
   }
   .truncate {
     width: inherit;

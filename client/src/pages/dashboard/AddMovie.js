@@ -9,7 +9,8 @@ const AddMovie = () => {
   const [selected, setSelected] = useState("")
   //const [didSearch, setSearch] = useState(false)
   const [moviesArray, setMovieArray] = useState([])
-  const {isLoading, movieTitle, movieImage} = useAppContext()
+  const {isLoading, movieTitle, movieImage, editMovieId, isEditing} =
+    useAppContext()
 
   useEffect(() => {
     setMovieArray([])

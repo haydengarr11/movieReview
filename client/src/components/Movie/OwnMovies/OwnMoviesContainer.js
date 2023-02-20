@@ -1,33 +1,41 @@
 import {useEffect} from "react"
-import {useAppContext} from "../context/appContext"
+import {useAppContext} from "../../../context/appContext"
 import styled from "styled-components"
-import Alert from "./Alert"
-import Movie from "./Movie"
+import Movie from "../Movie"
+import Alert from "../../Alert"
 
 const MoviesContainer = () => {
-  const {getAllMovies, movies, isLoading, page, totalMovies, showAlert} =
+  const {getOwnMovies, isLoading, totalOwnMovies, page, ownMovies, showAlert} =
     useAppContext()
   useEffect(() => {
-    getAllMovies()
+    getOwnMovies()
   }, [])
+  ownMovies.forEach((element) => {
+    element.createdAt = new Date(element.createdAt)
+  })
+
+  ownMovies.sort((a, b) => {
+    return b.createdAt - a.createdAt
+  })
+
   if (isLoading) {
     // return <Loading />
   }
-  if (movies.length === 0) {
+  if (ownMovies.length === 0) {
     return (
       <Wrapper>
         <h2> No movies to show...</h2>
       </Wrapper>
     )
   }
+
   return (
     <Wrapper>
-      {showAlert && <Alert />}
       <h5>
-        {totalMovies} movie{movies.length > 1 && "s"} found
+        {totalOwnMovies} movie{ownMovies.length > 1 && "s"} found
       </h5>
       <div className="movies">
-        {movies.map((movie) => {
+        {ownMovies.map((movie) => {
           return <Movie key={movie._id} {...movie} />
         })}
       </div>
