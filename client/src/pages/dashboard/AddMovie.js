@@ -45,7 +45,7 @@ const AddMovie = () => {
           <form className="form" onSubmit={handleSubmit}>
             <FormRow
               type="text"
-              name="search"
+              name="Search Movie"
               value={movie}
               handleChange={(e) => changeMovie(e.target.value)}
             />

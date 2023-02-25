@@ -323,3 +323,6 @@ ul {
     margin-right: 0.5rem;
   }
 }
+.recharts-surface {
+  display: flex;
+}

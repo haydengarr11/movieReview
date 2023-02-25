@@ -5,10 +5,18 @@ import Alert from "../Alert"
 import Show from "./Show"
 
 const ShowsContainer = () => {
-  const {getAllShows, shows, isLoading, page, totalShows, showAlert} =
-    useAppContext()
+  const {
+    getAllShows,
+    getOwnShows,
+    shows,
+    isLoading,
+    page,
+    totalShows,
+    showAlert,
+  } = useAppContext()
   useEffect(() => {
     getAllShows()
+    getOwnShows()
   }, [])
   if (isLoading) {
     // return <Loading />

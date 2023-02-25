@@ -3,6 +3,7 @@ import {FaAlignLeft, FaUserCircle, FaCaretDown} from "react-icons/fa"
 import {useAppContext} from "../context/appContext"
 import Logo from "./Logo"
 import {useState} from "react"
+import SmallSideLogo from "./SmallSideLogo"
 
 const Navbar = () => {
   const [showLogout, setShowLogout] = useState(false)
@@ -14,8 +15,13 @@ const Navbar = () => {
         <button className="toggle-btn" onClick={toggleSidebar}>
           <FaAlignLeft />
         </button>
-        <div>
-          <Logo />
+        <div className="logo">
+          <div className="big-logo">
+            <Logo />
+          </div>
+          <div className="small-logo">
+            <SmallSideLogo />
+          </div>
         </div>
         <div className="btn-container">
           <button
@@ -23,8 +29,8 @@ const Navbar = () => {
             className="btn"
             onClick={() => setShowLogout(!showLogout)}
           >
-            <FaUserCircle />
-            {user?.name}
+            <FaUserCircle className="userCircle" />
+            <div className="logout-name">{user?.name}</div>
             <FaCaretDown />
           </button>
           <div className={showLogout ? "dropdown show-dropdown" : "dropdown"}>
@@ -50,6 +56,18 @@ const Wrapper = styled.nav`
     display: flex;
     align-items: center;
     width: 300px;
+    margin-left: 3rem;
+    justify-content: center;
+  }
+  .big-logo {
+    @media (max-width: 992px) {
+      display: none;
+    }
+  }
+  .logout-name {
+    @media (max-width: 537px) {
+      display: none;
+    }
   }
   .nav-center {
     display: flex;
@@ -90,6 +108,9 @@ const Wrapper = styled.nav`
     text-align: center;
     visibility: hidden;
     border-radius: var(--borderRadius);
+    @media (max-width: 537px) {
+      padding: 0 !important;
+    }
   }
   .show-dropdown {
     visibility: visible;
@@ -115,6 +136,11 @@ const Wrapper = styled.nav`
     }
     .logo-text {
       display: block;
+    }
+  }
+  .small-logo {
+    @media (max-width: 537px) {
+      margin-left: -1rem;
     }
   }
 `

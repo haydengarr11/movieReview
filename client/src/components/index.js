@@ -15,9 +15,10 @@ import OwnMoviesContainer from "./Movie/OwnMovies/OwnMoviesContainer"
 import MoviesContainer from "./Movie/MoviesContainer"
 import ShowsContainer from "./Show/ShowsContainer"
 import Loading from "./Loading"
-
+import OwnShowsContainer from "./Show/OwnShowsContainer"
 export {
   Logo,
+  OwnShowsContainer,
   Loading,
   ShowsContainer,
   MoviesContainer,

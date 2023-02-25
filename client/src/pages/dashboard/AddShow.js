@@ -41,7 +41,7 @@ const AddShow = () => {
           <form className="form" onSubmit={handleSubmit}>
             <FormRow
               type="text"
-              name="search"
+              name="Search Show"
               value={show}
               handleChange={(e) => changeShow(e.target.value)}
             />

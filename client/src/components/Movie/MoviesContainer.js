@@ -5,10 +5,18 @@ import Alert from "../Alert"
 import Movie from "./Movie"
 
 const MoviesContainer = () => {
-  const {getAllMovies, movies, isLoading, page, totalMovies, showAlert} =
-    useAppContext()
+  const {
+    getAllMovies,
+    getOwnMovies,
+    movies,
+    isLoading,
+    page,
+    totalMovies,
+    showAlert,
+  } = useAppContext()
   useEffect(() => {
     getAllMovies()
+    getOwnMovies()
   }, [])
 
   movies.forEach((element) => {

@@ -39,6 +39,7 @@ import {
   SHOW_MOVIE_STATS_SUCCESS,
   SHOW_SHOW_STATS_BEGIN,
   SHOW_SHOW_STATS_SUCCESS,
+  TOGGLE_STATS,
   // CHANGE_DISPLAY_SHOWS,
   // CHANGE_DISPLAY_MOVIES,
 } from "./actions"
@@ -77,12 +78,14 @@ const initialState = {
   totalOwnShows: 0,
   shows: [],
   totalShows: 0,
+  profilePage: 1,
   page: 1,
   numOfPages: 1,
   movieStats: {},
   showStats: {},
-  monthlyReviews: [],
-  ownDisplay: "Movies",
+  monthlyMovies: [],
+  monthlyShows: [],
+  statsMovies: "movies",
 }
 
 const AppContext = React.createContext()
@@ -120,15 +123,6 @@ const AppProvider = ({children}) => {
       return Promise.reject(error)
     }
   )
-
-  // const changeDisplay = () => {
-  //   const {ownDisplay} = state
-  //   if (ownDisplay === "Movies") {
-  //     dispatch({type: CHANGE_DISPLAY_SHOWS})
-  //   } else {
-  //     dispatch({type: CHANGE_DISPLAY_MOVIES})
-  //   }
-  // }
 
   const displayAlert = () => {
     dispatch({type: DISPLAY_ALERT})
@@ -264,6 +258,14 @@ const AppProvider = ({children}) => {
 
   const toggleSidebar = () => {
     dispatch({type: TOGGLE_SIDEBAR})
+  }
+  const changeChart = (category) => {
+    dispatch({
+      type: TOGGLE_STATS,
+      payload: {
+        statsMovies: category,
+      },
+    })
   }
 
   const handleMovieChange = ({name, value}) => {
@@ -485,7 +487,7 @@ const AppProvider = ({children}) => {
         type: SHOW_MOVIE_STATS_SUCCESS,
         payload: {
           stats: data.defaultStats,
-          monthlyReviews: data.monthlyReviews,
+          monthlyMovies: data.monthlyMovies,
         },
       })
     } catch (error) {
@@ -501,7 +503,7 @@ const AppProvider = ({children}) => {
         type: SHOW_SHOW_STATS_SUCCESS,
         payload: {
           stats: data.defaultStats,
-          monthlyReviews: data.monthlyReviews,
+          monthlyShows: data.monthlyShows,
         },
       })
     } catch (error) {
@@ -528,6 +530,7 @@ const AppProvider = ({children}) => {
         removeSelectedShow,
         createShow,
         getOwnMovies,
+        getOwnShows,
         getAllMovies,
         getAllShows,
         setEditMovie,
@@ -538,6 +541,7 @@ const AppProvider = ({children}) => {
         showMovieStats,
         deleteShow,
         showShowStats,
+        changeChart,
       }}
     >
       {children}

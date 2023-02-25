@@ -39,6 +39,7 @@ import {
   CHANGE_DISPLAY_SHOWS,
   CHANGE_DISPLAY_MOVIES,
   SET_EDIT_SHOW,
+  TOGGLE_STATS,
 } from "./actions"
 import {initialState} from "./appContext"
 
@@ -91,6 +92,12 @@ const reducer = (state, action) => {
     return {
       ...state,
       showSidebar: !state.showSidebar,
+    }
+  }
+  if (action.type === TOGGLE_STATS) {
+    return {
+      ...state,
+      statsMovies: action.payload.statsMovies,
     }
   }
   // if (action.type === CHANGE_DISPLAY_SHOWS) {
@@ -275,7 +282,9 @@ const reducer = (state, action) => {
     }
   }
   if (action.type === SET_EDIT_MOVIE) {
-    const movie = state.movies.find((movie) => movie._id === action.payload.id)
+    const movie = state.ownMovies.find(
+      (movie) => movie._id === action.payload.id
+    )
     const {_id, movieTitle, movieImage, movieRating, creatorName, movieReview} =
       movie
 
@@ -291,7 +300,7 @@ const reducer = (state, action) => {
     }
   }
   if (action.type === SET_EDIT_SHOW) {
-    const show = state.shows.find((show) => show._id === action.payload.id)
+    const show = state.ownShows.find((show) => show._id === action.payload.id)
     const {_id, showTitle, showImage, showRating, creatorName, showReview} =
       show
 
@@ -366,7 +375,7 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       movieStats: action.payload.stats,
-      monthlyMovieReviews: action.payload.monthlyReviews,
+      monthlyMovies: action.payload.monthlyMovies,
     }
   }
   if (action.type === SHOW_SHOW_STATS_BEGIN) {
@@ -381,7 +390,7 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showStats: action.payload.stats,
-      monthlyReviews: action.payload.monthlyReviews,
+      monthlyShows: action.payload.monthlyShows,
     }
   }
 

@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import {useAppContext} from "../context/appContext";
-import NavLinks from "./NavLinks";
-import Logo from "./Logo";
-import {FaTimes} from "react-icons/fa";
-import SmallLogo from "./SmallLogo";
+import styled from "styled-components"
+import {useAppContext} from "../context/appContext"
+import NavLinks from "./NavLinks"
+import Logo from "./Logo"
+import {FaTimes} from "react-icons/fa"
+import SmallLogo from "./SmallLogo"
 // import SmallLogo from "./SmallLogo";
 
 const BigSidebar = () => {
-  const {showSidebar} = useAppContext(); //ability to open and close the navbar
+  const {showSidebar} = useAppContext() //ability to open and close the navbar
 
   return (
     <Wrapper>
@@ -24,9 +24,9 @@ const BigSidebar = () => {
         </div>
       </div>
     </Wrapper>
-  );
-};
-export default BigSidebar;
+  )
+}
+export default BigSidebar
 
 const Wrapper = styled.aside`
   display: none;
@@ -90,7 +90,7 @@ const Wrapper = styled.aside`
       color: var(--primary-500);
     }
     .small-logo {
-      margin-left: 40px;
+      height: 60px;
     }
   }
-`;
+`

@@ -4,6 +4,7 @@ import Show from "../models/Show.js"
 import User from "../models/User.js"
 import checkPermissions from "../utils/checkPermission.js"
 import mongoose from "mongoose"
+import moment from "moment"
 const createShow = async (req, res) => {
   const {showTitle, showRating, showReview, showImage} = req.body
 
@@ -90,9 +91,34 @@ const showStats = async (req, res) => {
     four: stats[4] || 0,
     five: stats[5] || 0,
   }
-  const monthlyReviews = []
-  console.log(defaultStats)
-  res.status(StatusCodes.OK).json({defaultStats, monthlyReviews})
+  let monthlyShows = await Show.aggregate([
+    {$match: {createdBy: mongoose.Types.ObjectId(req.user.userId)}},
+    {
+      $group: {
+        _id: {year: {$year: "$createdAt"}, month: {$month: "$createdAt"}},
+        count: {$sum: 1},
+      },
+    },
+    {
+      $sort: {"_id.year": -1, "_id.month": -1},
+    },
+    {$limit: 6},
+  ])
+
+  monthlyShows = monthlyShows
+    .map((item) => {
+      const {
+        _id: {year, month},
+        count,
+      } = item
+      const date = moment()
+        .month(month - 1)
+        .year(year)
+        .format("MMM Y")
+      return {date, count}
+    })
+    .reverse()
+  res.status(StatusCodes.OK).json({defaultStats, monthlyShows})
 }
 
 export {

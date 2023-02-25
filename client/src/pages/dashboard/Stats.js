@@ -1,9 +1,10 @@
 import {useEffect} from "react"
 import {useAppContext} from "../../context/appContext"
 import {StatsContainer, Loading, ChartsContainer} from "../../components"
+import styled from "styled-components"
 
 const Stats = () => {
-  const {showMovieStats, isLoading, showShowStats, monthlyReviews} =
+  const {showMovieStats, isLoading, showShowStats, monthlyMovies} =
     useAppContext()
   useEffect(() => {
     showMovieStats()
@@ -13,10 +14,15 @@ const Stats = () => {
   //   return <Loading center />
   // }
   return (
-    <>
+    <Wrapper>
       <StatsContainer />
-      {monthlyReviews > 0 && <ChartsContainer />}
-    </>
+      <ChartsContainer />
+    </Wrapper>
   )
 }
 export default Stats
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`

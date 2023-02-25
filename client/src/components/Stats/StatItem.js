@@ -31,6 +31,7 @@ const Wrapper = styled.article`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2rem;
   header {
     display: flex;
     align-items: center;

@@ -83,7 +83,7 @@ const Wrapper = styled.article`
   display: grid;
   grid-template-rows: 1fr auto;
   box-shadow: var(--shadow-2);
-  max-width: 595px;
+  max-width: 570px;
   max-height: 500px;
   header {
     padding: 1rem 1.5rem;
@@ -148,57 +148,6 @@ const Wrapper = styled.article`
     overflow: auto;
     text-overflow: ellipsis;
   }
-  /* .info {
-    display: grid;
-    grid: repeat(3, 1fr);
-    h5 {
-      margin-bottom: 0.25rem;
-    }
-    p {
-      margin: 0;
-      text-transform: capitalize;
-      color: var(--grey-400);
-      letter-spacing: var(--letterSpacing);
-    }
-  }
-  .pending {
-    background: #fcefc7;
-    color: #e9b949;
-  }
-  .interview {
-    background: #e0e8f9;
-    color: #647acb;
-  }
-  .declined {
-    color: #d66a6a;
-    background: #ffeeee;
-  }
-  .content {
-    padding: 1rem 1.5rem;
-  }
-  .content-center {
-    display: grid;
-    grid-template-columns: 1fr;
-    row-gap: 0.5rem;
-    margin: 0px 15px;
-    @media (min-width: 576px) {
-      grid-template-columns: 1fr 1fr;
-    }
-    @media (min-width: 992px) {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-    @media (min-width: 1120px) {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
-  }
-  .status {
-    border-radius: var(--borderRadius);
-    text-transform: capitalize;
-    letter-spacing: var(--letterSpacing);
-    text-align: center;
-    width: 100px;
-    height: 30px;
-  } */
   footer {
     margin-top: 1rem;
   }
@@ -229,6 +178,33 @@ const Wrapper = styled.article`
 
   .filled {
     color: #ffc107;
+  }
+  @media (max-width: 767px) {
+    /* adjust the grid-template-rows to make the image and title stack on top of each other */
+    grid-template-rows: auto auto;
+
+    /* decrease the width of the main icon */
+    .main-icon {
+      width: 75px;
+      height: 112.5px;
+    }
+
+    /* adjust the grid-template-columns to stack the rating and reviewer name on top of each other */
+    .info {
+      grid-template-columns: 1fr;
+    }
+
+    /* reduce the font size of the review and adjust the width to fit the screen */
+    .review-p {
+      font-size: 0.8rem;
+      width: 90%;
+    }
+
+    /* adjust the margin of the edit and delete buttons */
+    .edit-btn,
+    .delete-btn {
+      margin: 0.5rem 0;
+    }
   }
 `
 

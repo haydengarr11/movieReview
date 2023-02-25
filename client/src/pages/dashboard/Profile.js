@@ -1,5 +1,10 @@
 import {useEffect, useState} from "react"
-import {FormRow, Alert, OwnMoviesContainer} from "../../components"
+import {
+  FormRow,
+  Alert,
+  OwnMoviesContainer,
+  OwnShowsContainer,
+} from "../../components"
 import {useAppContext} from "../../context/appContext"
 import styled from "styled-components"
 
@@ -18,6 +23,7 @@ const Profile = () => {
   const [email, setEmail] = useState(user?.email)
   const [lastName, setLastName] = useState(user?.lastName)
   const [location, setLocation] = useState(user?.location)
+  const [activeButton, setActiveButton] = useState("movies")
 
   useEffect(() => {
     getOwnMovies()
@@ -78,7 +84,38 @@ const Profile = () => {
           return <Movie key={movie._id} {...movie} />
         })}
       </div> */}
-      <OwnMoviesContainer />
+      <div
+        className="btn-group"
+        role="group"
+        aria-label="Basic radio toggle button group"
+      >
+        <input
+          type="radio"
+          class="btn-check"
+          name="btnradio"
+          id="btnradio1"
+          autocomplete="off"
+          checked={activeButton === "movies"}
+          onClick={() => setActiveButton("movies")}
+        />
+        <label class="btn btn-outline-secondary" for="btnradio1">
+          Movies
+        </label>
+        <input
+          type="radio"
+          class="btn-check"
+          name="btnradio"
+          id="btnradio2"
+          autocomplete="off"
+          checked={activeButton === "shows"}
+          onClick={() => setActiveButton("shows")}
+        />
+        <label class="btn btn-outline-secondary" for="btnradio2">
+          Shows
+        </label>
+      </div>
+      {activeButton === "movies" && <OwnMoviesContainer />}
+      {activeButton === "shows" && <OwnShowsContainer />}
     </Wrapper>
   )
 }
@@ -90,6 +127,9 @@ const Wrapper = styled.section`
   background: var(--white);
   padding: 3rem 2rem 4rem;
   box-shadow: var(--shadow-2);
+  .btn-group {
+    margin: 1.5rem 2rem;
+  }
   h3 {
     margin-top: 0;
   }
@@ -145,6 +185,17 @@ const Wrapper = styled.section`
     }
     .form-center button {
       margin-top: 0;
+    }
+  }
+  @media (max-width: 767px) {
+    .form-input {
+      width: 90vw;
+    }
+    .btn-block {
+      width: 90vw;
+    }
+    .btn-group {
+      margin: 1rem 0 0 0;
     }
   }
 `
