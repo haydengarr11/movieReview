@@ -23,9 +23,9 @@ REACT_APP_SHOW_KEY=https://api.themoviedb.org/3/search/tv?api_key=<yourKey>langu
 
 ### What's Left to Complete?
 
--Pagination
+- Pagination
 
--Security
+- Security
 
 ### Questions?
 
