@@ -150,6 +150,24 @@ const Wrapper = styled.section`
   .filled {
     color: #ffc107;
   }
+  @media (max-width: 500px) {
+    .movie-review {
+      width: 90vw;
+    }
+    textarea {
+      width: 75vw;
+    }
+  }
+  @media (min-width: 600px) {
+    textarea {
+      max-width: 40vw;
+    }
+  }
+  @media (min-width: 830px) {
+    textarea {
+      max-width: max-content;
+    }
+  }
 `
 
 export default MovieReview

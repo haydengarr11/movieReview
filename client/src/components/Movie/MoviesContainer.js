@@ -13,20 +13,15 @@ const MoviesContainer = () => {
     page,
     totalMovies,
     showAlert,
+    movieSearch,
+    movieRatingType,
+    movieSort,
   } = useAppContext()
+
   useEffect(() => {
     getAllMovies()
     getOwnMovies()
-  }, [])
-
-  movies.forEach((element) => {
-    element.createdAt = new Date(element.createdAt)
-  })
-
-  movies.sort((a, b) => {
-    return b.createdAt - a.createdAt
-  })
-
+  }, [movieRatingType, movieSearch, movieSort])
   if (isLoading) {
     // return <Loading />
   }

@@ -22,11 +22,51 @@ const createMovie = async (req, res) => {
 }
 
 const getAllMovies = async (req, res) => {
-  const movies = await Movie.find()
+  const {movieRating, sort, search} = req.query
+  console.log(req.query)
 
-  res
-    .status(StatusCodes.OK)
-    .json({movies, totalMovies: movies.length, numOfPages: 1})
+  const queryObject = {}
+
+  if (movieRating && movieRating !== "all") {
+    queryObject.movieRating = movieRating
+  }
+  if (search) {
+    queryObject.movieTitle = {$regex: search, $options: "i"}
+  }
+
+  let result = Movie.find(queryObject)
+
+  if (sort === "latest") {
+    result = result.sort("-createdAt")
+  }
+  if (sort === "oldest") {
+    result = result.sort("createdAt")
+  }
+  if (sort === "A-Z") {
+    result = result.sort("movieTitle")
+  }
+  if (sort === "Z-A") {
+    result = result.sort("-movieTitle")
+  }
+  if (sort === "Rating") {
+    result = result.sort("-movieRating")
+  }
+  if (sort === "Rating Asc") {
+    result = result.sort("movieRating")
+  }
+
+  const page = Number(req.query.page) || 1
+  const limit = Number(req.query.limit) || 10
+  const skip = (page - 1) * limit
+  result = result.skip(skip).limit(limit)
+
+  const movies = await result
+
+  // const movies = await Movie.find({movieRating})
+  const totalMovies = await Movie.countDocuments(queryObject)
+  const numOfMoviePages = Math.ceil(totalMovies / limit)
+
+  res.status(StatusCodes.OK).json({movies, totalMovies, numOfMoviePages})
 }
 const updateMovie = async (req, res) => {
   const {id: movieId} = req.params
@@ -68,11 +108,53 @@ const deleteMovie = async (req, res) => {
 }
 
 const getOwnMovies = async (req, res) => {
-  const ownMovies = await Movie.find({createdBy: req.user.userId})
+  const {movieRating, sort, search} = req.query
+  console.log(req.query)
+
+  const queryObject = {createdBy: req.user.userId}
+
+  if (movieRating && movieRating !== "all") {
+    queryObject.movieRating = movieRating
+  }
+  if (search) {
+    queryObject.movieTitle = {$regex: search, $options: "i"}
+  }
+
+  let result = Movie.find(queryObject)
+
+  if (sort === "latest") {
+    result = result.sort("-createdAt")
+  }
+  if (sort === "oldest") {
+    result = result.sort("createdAt")
+  }
+  if (sort === "A-Z") {
+    result = result.sort("movieTitle")
+  }
+  if (sort === "Z-A") {
+    result = result.sort("-movieTitle")
+  }
+  if (sort === "Rating") {
+    result = result.sort("-movieRating")
+  }
+  if (sort === "Rating Asc") {
+    result = result.sort("movieRating")
+  }
+
+  const page = Number(req.query.page) || 1
+  const limit = Number(req.query.limit) || 10
+  const skip = (page - 1) * limit
+  result = result.skip(skip).limit(limit)
+
+  const ownMovies = await result
+
+  const totalOwnMovies = await Movie.countDocuments(queryObject)
+  const numOfOwnMoviePages = Math.ceil(totalOwnMovies / limit)
+  // const movies = await Movie.find({movieRating})
 
   res
     .status(StatusCodes.OK)
-    .json({ownMovies, totalOwnMovies: ownMovies.length, numOfPages: 1})
+    .json({ownMovies, totalOwnMovies, numOfOwnMoviePages})
 }
 
 const showStats = async (req, res) => {

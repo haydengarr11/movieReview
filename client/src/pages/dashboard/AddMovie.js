@@ -27,6 +27,7 @@ const AddMovie = () => {
       method: "get",
       url: process.env.REACT_APP_MOVIE_KEY,
       params: {
+        include_adult: false,
         query: title,
       },
     })
@@ -132,6 +133,11 @@ const Wrapper = styled.section`
   .movie-form {
     z-index: 500;
     width: 50vw;
+  }
+  @media (max-width: 500px) {
+    .movie-form {
+      width: 90vw;
+    }
   }
 `
 

@@ -17,6 +17,9 @@ const Show = ({
   const {user, setEditShow, deleteShow} = useAppContext()
   let date = moment(createdAt)
   date = date.format("MMM Do")
+  if (showTitle.length > 30) {
+    showTitle = showTitle.substring(0, 27) + "..."
+  }
   return (
     <Wrapper>
       <header>

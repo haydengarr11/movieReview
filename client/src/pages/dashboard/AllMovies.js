@@ -1,10 +1,12 @@
 import styled from "styled-components"
 import {MoviesContainer} from "../../components"
+import MovieSearchContainer from "../../components/MovieSearchContainer"
 
 const AllMovies = () => {
   return (
     <Wrapper>
       <div className="container-fluid">
+        <MovieSearchContainer />
         <MoviesContainer />
       </div>
     </Wrapper>

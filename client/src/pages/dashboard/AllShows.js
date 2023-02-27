@@ -1,10 +1,11 @@
-import {ShowsContainer} from "../../components"
+import {ShowsContainer, ShowsSearchContainer} from "../../components"
 
 const AllShows = () => {
   return (
-    <>
-      <ShowsContainer />{" "}
-    </>
+    <div className="container-fluid">
+      <ShowsSearchContainer />
+      <ShowsContainer />
+    </div>
   )
 }
 export default AllShows

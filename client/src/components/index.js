@@ -16,13 +16,22 @@ import MoviesContainer from "./Movie/MoviesContainer"
 import ShowsContainer from "./Show/ShowsContainer"
 import Loading from "./Loading"
 import OwnShowsContainer from "./Show/OwnShowsContainer"
+import FormRowSelect from "./FormRowSelect"
+import ShowsSearchContainer from "./ShowsSearchContainer"
+import OwnMovieSearchContainer from "./OwnMovieSearchContainer"
+import MovieSearchContainer from "./MovieSearchContainer"
+import OwnShowSearchContainer from "./OwnShowSearchContainer"
+
 export {
   Logo,
+  OwnShowSearchContainer,
   OwnShowsContainer,
+  OwnMovieSearchContainer,
   Loading,
   ShowsContainer,
   MoviesContainer,
   FormRow,
+  FormRowSelect,
   Alert,
   SmallSidebar,
   BigSidebar,
@@ -35,4 +44,6 @@ export {
   ChartsContainer,
   Movie,
   OwnMoviesContainer,
+  ShowsSearchContainer,
+  MovieSearchContainer,
 }

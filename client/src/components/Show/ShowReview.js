@@ -45,8 +45,8 @@ const ShowReview = () => {
 
   return (
     <Wrapper>
-      <div className="container-fluid movie-review">
-        <form className="form movie-form" onSubmit={handleSubmit}>
+      <div className="container-fluid show-review">
+        <form className="form show-form" onSubmit={handleSubmit}>
           {showAlert && <Alert />}
           <h2>{showTitle}</h2>
           <img
@@ -149,6 +149,15 @@ const Wrapper = styled.section`
 
   .filled {
     color: #ffc107;
+  }
+
+  @media (max-width: 500px) {
+    .movie-form {
+      width: 90vw;
+    }
+    textarea {
+      width: 75vw;
+    }
   }
 `
 

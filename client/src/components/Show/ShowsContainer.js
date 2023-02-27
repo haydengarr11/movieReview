@@ -13,11 +13,14 @@ const ShowsContainer = () => {
     page,
     totalShows,
     showAlert,
+    showSearch,
+    showRatingType,
+    showSort,
   } = useAppContext()
   useEffect(() => {
     getAllShows()
     getOwnShows()
-  }, [])
+  }, [showSearch, showRatingType, showSort])
   if (isLoading) {
     // return <Loading />
   }

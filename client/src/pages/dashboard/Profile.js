@@ -4,6 +4,8 @@ import {
   Alert,
   OwnMoviesContainer,
   OwnShowsContainer,
+  OwnMovieSearchContainer,
+  OwnShowSearchContainer,
 } from "../../components"
 import {useAppContext} from "../../context/appContext"
 import styled from "styled-components"
@@ -17,17 +19,18 @@ const Profile = () => {
     isLoading,
     ownMovies,
     getOwnMovies,
+    ownMovieSort,
+    ownMovieSearch,
+    ownMovieRatingType,
+    ownShowSort,
+    ownShowSearch,
+    ownShowRatingType,
   } = useAppContext()
 
   const [name, setName] = useState(user?.name)
   const [email, setEmail] = useState(user?.email)
   const [lastName, setLastName] = useState(user?.lastName)
-  const [location, setLocation] = useState(user?.location)
   const [activeButton, setActiveButton] = useState("movies")
-
-  useEffect(() => {
-    getOwnMovies()
-  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -38,7 +41,7 @@ const Profile = () => {
     //   return;
     // }
 
-    updateUser({name, lastName, location, email})
+    updateUser({name, lastName, email})
   }
 
   return (
@@ -65,12 +68,6 @@ const Profile = () => {
             name="email"
             value={email}
             handleChange={(e) => setEmail(e.target.value)}
-          />
-          <FormRow
-            type="text"
-            name="location"
-            value={location}
-            handleChange={(e) => setLocation(e.target.value)}
           />
           <button className="btn btn-block" type="submit" disabled={isLoading}>
             {isLoading ? "Please Wait" : "Save Changes"}
@@ -114,8 +111,17 @@ const Profile = () => {
           Shows
         </label>
       </div>
-      {activeButton === "movies" && <OwnMoviesContainer />}
-      {activeButton === "shows" && <OwnShowsContainer />}
+      {activeButton === "movies" && (
+        <>
+          <OwnMovieSearchContainer /> <OwnMoviesContainer />
+        </>
+      )}
+      {activeButton === "shows" && (
+        <>
+          {" "}
+          <OwnShowSearchContainer /> <OwnShowsContainer />{" "}
+        </>
+      )}
     </Wrapper>
   )
 }
@@ -124,22 +130,23 @@ export default Profile
 const Wrapper = styled.section`
   border-radius: var(--borderRadius);
   width: 100%;
-  background: var(--white);
   padding: 3rem 2rem 4rem;
   box-shadow: var(--shadow-2);
   .btn-group {
-    margin: 1.5rem 2rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
   }
   h3 {
-    margin-top: 0;
+    margin-top: -1rem;
   }
   .form {
-    margin: 0;
-    border-radius: 0;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    border-radius: 5px;
     box-shadow: none;
-    padding: 0;
+    padding: 2rem 2rem;
     max-width: 100%;
-    width: 100%;
+    width: auto;
   }
   .form-row {
     margin-bottom: 0;

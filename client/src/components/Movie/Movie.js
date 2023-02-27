@@ -16,6 +16,9 @@ const Movie = ({
   const {user, setEditMovie, deleteMovie} = useAppContext()
   let date = moment(createdAt)
   date = date.format("MMM Do")
+  if (movieTitle.length > 30) {
+    movieTitle = movieTitle.substring(0, 27) + "..."
+  }
   return (
     <Wrapper>
       <header>
@@ -24,7 +27,9 @@ const Movie = ({
           alt={`${movieTitle} cover`}
           className="main-icon"
         />
-        <h3 className="title">{movieTitle}</h3>
+        <h3 className="title" truncate>
+          {movieTitle}
+        </h3>
       </header>
       <div className="info">
         <div className=".content-center">

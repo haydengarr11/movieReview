@@ -23,6 +23,7 @@ const AddShow = () => {
       method: "get",
       url: process.env.REACT_APP_SHOW_KEY,
       params: {
+        include_adult: false,
         query: show,
       },
     })

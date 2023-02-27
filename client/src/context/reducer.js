@@ -40,6 +40,10 @@ import {
   CHANGE_DISPLAY_MOVIES,
   SET_EDIT_SHOW,
   TOGGLE_STATS,
+  CLEAR_MOVIE_FILTERS,
+  CLEAR_SHOW_FILTERS,
+  CLEAR_OWN_MOVIE_FILTERS,
+  CLEAR_OWN_SHOW_FILTERS,
 } from "./actions"
 import {initialState} from "./appContext"
 
@@ -178,6 +182,7 @@ const reducer = (state, action) => {
       movieImage: "",
       movieReview: "",
       movieRating: 0,
+      isEditing: false,
     }
   }
   if (action.type === CREATE_MOVIE_BEGIN) {
@@ -211,6 +216,7 @@ const reducer = (state, action) => {
       showImage: "",
       showReview: "",
       showRating: 0,
+      isEditing: false,
     }
   }
   if (action.type === CREATE_SHOW_BEGIN) {
@@ -250,7 +256,7 @@ const reducer = (state, action) => {
       isLoading: false,
       ownMovies: action.payload.ownMovies,
       totalOwnMovies: action.payload.totalOwnMovies,
-      numOfPages: action.payload.numOfPages,
+      numOfOwnMoviePages: action.payload.numOfOwnMoviePages,
     }
   }
   if (action.type === GET_OWN_SHOWS_SUCCESS) {
@@ -259,7 +265,7 @@ const reducer = (state, action) => {
       isLoading: false,
       ownShows: action.payload.ownShows,
       totalOwnShows: action.payload.totalOwnShows,
-      numOfPages: action.payload.numOfPages,
+      numOfOwnShowPages: action.payload.numOfOwnShowPages,
     }
   }
   if (action.type === GET_ALLSHOWS_SUCCESS) {
@@ -268,7 +274,7 @@ const reducer = (state, action) => {
       isLoading: false,
       shows: action.payload.shows,
       totalShows: action.payload.totalShows,
-      numOfPages: action.payload.numOfPages,
+      numOfShowPages: action.payload.numOfShowPages,
     }
   }
 
@@ -278,7 +284,7 @@ const reducer = (state, action) => {
       isLoading: false,
       movies: action.payload.movies,
       totalMovies: action.payload.totalMovies,
-      numOfPages: action.payload.numOfPages,
+      numOfMoviePages: action.payload.numOfMoviePages,
     }
   }
   if (action.type === SET_EDIT_MOVIE) {
@@ -391,6 +397,38 @@ const reducer = (state, action) => {
       isLoading: false,
       showStats: action.payload.stats,
       monthlyShows: action.payload.monthlyShows,
+    }
+  }
+  if (action.type === CLEAR_MOVIE_FILTERS) {
+    return {
+      ...state,
+      movieSearch: "",
+      movieSort: "latest",
+      movieRatingType: "all",
+    }
+  }
+  if (action.type === CLEAR_SHOW_FILTERS) {
+    return {
+      ...state,
+      showSearch: "",
+      showSort: "latest",
+      showRatingType: "all",
+    }
+  }
+  if (action.type === CLEAR_OWN_MOVIE_FILTERS) {
+    return {
+      ...state,
+      ownMovieSearch: "",
+      ownMovieSort: "latest",
+      ownMovieRatingType: "all",
+    }
+  }
+  if (action.type === CLEAR_OWN_SHOW_FILTERS) {
+    return {
+      ...state,
+      ownShowSearch: "",
+      ownShowSort: "latest",
+      ownShowRatingType: "all",
     }
   }
 

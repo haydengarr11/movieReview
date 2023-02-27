@@ -2,23 +2,26 @@ import {useEffect} from "react"
 import {useAppContext} from "../../context/appContext"
 import styled from "styled-components"
 import Show from "./Show"
+import Loading from "../Loading"
 
 const OwnShowsContainer = () => {
-  const {getOwnShows, isLoading, totalOwnShows, page, ownShows, showAlert} =
-    useAppContext()
+  const {
+    getOwnShows,
+    isLoading,
+    totalOwnShows,
+    page,
+    ownShows,
+    showAlert,
+    ownShowSort,
+    ownShowSearch,
+    ownShowRatingType,
+  } = useAppContext()
   useEffect(() => {
     getOwnShows()
-  }, [])
-  ownShows.forEach((element) => {
-    element.createdAt = new Date(element.createdAt)
-  })
-
-  ownShows.sort((a, b) => {
-    return b.createdAt - a.createdAt
-  })
+  }, [ownShowSort, ownShowSearch, ownShowRatingType])
 
   if (isLoading) {
-    // return <Loading />
+    return <Loading />
   }
   if (ownShows.length === 0) {
     return (

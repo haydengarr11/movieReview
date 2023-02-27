@@ -40,6 +40,10 @@ import {
   SHOW_SHOW_STATS_BEGIN,
   SHOW_SHOW_STATS_SUCCESS,
   TOGGLE_STATS,
+  CLEAR_MOVIE_FILTERS,
+  CLEAR_SHOW_FILTERS,
+  CLEAR_OWN_MOVIE_FILTERS,
+  CLEAR_OWN_SHOW_FILTERS,
   // CHANGE_DISPLAY_SHOWS,
   // CHANGE_DISPLAY_MOVIES,
 } from "./actions"
@@ -56,8 +60,6 @@ const initialState = {
   alertType: "",
   user: user ? JSON.parse(user) : null,
   token: token,
-  userLocation: userLocation || "",
-  jobLocation: userLocation || "",
   showSidebar: false,
   isEditing: false,
   editMovieId: "",
@@ -79,13 +81,35 @@ const initialState = {
   shows: [],
   totalShows: 0,
   profilePage: 1,
-  page: 1,
-  numOfPages: 1,
+  moviePage: 1,
+  numOfMoviePages: 1,
+  ownMoviePage: 1,
+  numOfOwnMoviePages: 1,
+  showPage: 1,
+  numOfShowPages: 1,
+  ownShowPage: 1,
+  numOfOwnShowPages: 1,
   movieStats: {},
   showStats: {},
   monthlyMovies: [],
   monthlyShows: [],
   statsMovies: "movies",
+  movieRatingType: "all",
+  ownMovieRatingType: "all",
+  movieRatingOptions: ["all", 1, 2, 3, 4, 5],
+  movieSearch: "",
+  ownMovieSearch: "",
+  movieSort: "latest",
+  ownMovieSort: "latest",
+  movieSortOptions: ["latest", "oldest", "A-Z", "Z-A", "Rating", "Rating Asc"],
+  showRatingType: "all",
+  showRatingOptions: ["all", 1, 2, 3, 4, 5],
+  showSearch: "",
+  showSort: "latest",
+  showSortOptions: ["latest", "oldest", "A-Z", "Z-A", "Rating", "Rating Asc"],
+  ownShowRatingType: "all",
+  ownShowSearch: "",
+  ownShowSort: "latest",
 }
 
 const AppContext = React.createContext()
@@ -318,19 +342,23 @@ const AppProvider = ({children}) => {
   }
 
   const getOwnMovies = async () => {
+    const {ownMovieSearch, ownMovieSort, ownMovieRatingType, user} = state
     const id = user._id
-    let url = `/movies/${id}`
+    let url = `/movies/${id}?movieRating=${ownMovieRatingType}&sort=${ownMovieSort}`
+    if (ownMovieSearch) {
+      url = url + `&search=${ownMovieSearch}`
+    }
 
     dispatch({type: GET_MOVIESORSHOWS_BEGIN})
     try {
       const {data} = await authFetch(url)
-      const {ownMovies, totalOwnMovies, numOfPages} = data
+      const {ownMovies, totalOwnMovies, numOfOwnMoviePages} = data
       dispatch({
         type: GET_OWN_MOVIES_SUCCESS,
         payload: {
           ownMovies,
           totalOwnMovies,
-          numOfPages,
+          numOfOwnMoviePages,
         },
       })
     } catch (error) {
@@ -340,19 +368,23 @@ const AppProvider = ({children}) => {
     clearAlert()
   }
   const getOwnShows = async () => {
+    const {ownShowSearch, ownShowSort, ownShowRatingType, user} = state
     const id = user._id
-    let url = `/shows/${id}`
+    let url = `/shows/${id}?showRating=${ownShowRatingType}&sort=${ownShowSort}`
+    if (ownShowSearch) {
+      url = url + `&search=${ownShowSearch}`
+    }
 
     dispatch({type: GET_MOVIESORSHOWS_BEGIN})
     try {
       const {data} = await authFetch(url)
-      const {ownShows, totalOwnShows, numOfPages} = data
+      const {ownShows, totalOwnShows, numOfOwnShowPages} = data
       dispatch({
         type: GET_OWN_SHOWS_SUCCESS,
         payload: {
           ownShows,
           totalOwnShows,
-          numOfPages,
+          numOfOwnShowPages,
         },
       })
     } catch (error) {
@@ -363,18 +395,21 @@ const AppProvider = ({children}) => {
   }
 
   const getAllMovies = async () => {
-    let url = `/movies`
-
+    const {movieSearch, movieSort, movieRatingType} = state
+    let url = `/movies?movieRating=${movieRatingType}&sort=${movieSort}`
+    if (movieSearch) {
+      url = url + `&search=${movieSearch}`
+    }
     dispatch({type: GET_MOVIESORSHOWS_BEGIN})
     try {
       const {data} = await authFetch(url)
-      const {movies, totalMovies, numOfPages} = data
+      const {movies, totalMovies, numOfMoviePages} = data
       dispatch({
         type: GET_ALLMOVIES_SUCCESS,
         payload: {
           movies,
           totalMovies,
-          numOfPages,
+          numOfMoviePages,
         },
       })
     } catch (error) {
@@ -384,18 +419,22 @@ const AppProvider = ({children}) => {
     clearAlert()
   }
   const getAllShows = async () => {
-    let url = `/shows`
+    const {showSearch, showSort, showRatingType} = state
+    let url = `/shows?showRating=${showRatingType}&sort=${showSort}`
+    if (showSearch) {
+      url = url + `&search=${showSearch}`
+    }
 
     dispatch({type: GET_MOVIESORSHOWS_BEGIN})
     try {
       const {data} = await authFetch(url)
-      const {shows, totalShows, numOfPages} = data
+      const {shows, totalShows, numOfShowPages} = data
       dispatch({
         type: GET_ALLSHOWS_SUCCESS,
         payload: {
           shows,
           totalShows,
-          numOfPages,
+          numOfShowPages,
         },
       })
     } catch (error) {
@@ -511,6 +550,18 @@ const AppProvider = ({children}) => {
     }
     clearAlert()
   }
+  const clearMovieFilters = () => {
+    dispatch({type: CLEAR_MOVIE_FILTERS})
+  }
+  const clearShowFilters = () => {
+    dispatch({type: CLEAR_SHOW_FILTERS})
+  }
+  const clearOwnMovieFilters = () => {
+    dispatch({type: CLEAR_OWN_MOVIE_FILTERS})
+  }
+  const clearOwnShowFilters = () => {
+    dispatch({type: CLEAR_OWN_SHOW_FILTERS})
+  }
 
   return (
     <AppContext.Provider
@@ -542,6 +593,10 @@ const AppProvider = ({children}) => {
         deleteShow,
         showShowStats,
         changeChart,
+        clearMovieFilters,
+        clearShowFilters,
+        clearOwnMovieFilters,
+        clearOwnShowFilters,
       }}
     >
       {children}

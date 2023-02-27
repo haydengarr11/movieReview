@@ -5,18 +5,20 @@ import Movie from "../Movie"
 import Alert from "../../Alert"
 
 const OwnMoviesContainer = () => {
-  const {getOwnMovies, isLoading, totalOwnMovies, page, ownMovies, showAlert} =
-    useAppContext()
+  const {
+    getOwnMovies,
+    isLoading,
+    totalOwnMovies,
+    page,
+    ownMovies,
+    showAlert,
+    ownMovieSearch,
+    ownMovieRatingType,
+    ownMovieSort,
+  } = useAppContext()
   useEffect(() => {
     getOwnMovies()
-  }, [])
-  ownMovies.forEach((element) => {
-    element.createdAt = new Date(element.createdAt)
-  })
-
-  ownMovies.sort((a, b) => {
-    return b.createdAt - a.createdAt
-  })
+  }, [ownMovieSearch, ownMovieRatingType, ownMovieSort])
 
   if (isLoading) {
     // return <Loading />
